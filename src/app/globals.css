@@ -3,12 +3,27 @@
   --foreground: #171717;
 }
 
+/* globals.css or your main CSS file */
+* {
+  color-scheme: light !important;
+}
+
+html {
+  color-scheme: light;
+}
+
 @media (prefers-color-scheme: dark) {
+  html {
+    filter: none !important;
+  }
+}
+
+/* @media (prefers-color-scheme: dark) {
   :root {
     --background: #0a0a0a;
     --foreground: #ededed;
   }
-}
+} */
 
 html,
 body {
@@ -35,8 +50,8 @@ a {
   text-decoration: none;
 }
 
-@media (prefers-color-scheme: dark) {
+/* @media (prefers-color-scheme: dark) {
   html {
     color-scheme: dark;
   }
-}
+} */
