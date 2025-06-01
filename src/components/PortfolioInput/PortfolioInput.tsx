@@ -1,15 +1,74 @@
-import React from "react";
+"use client";
+import { useState } from "react";
+import styles from "./PortfolioInput.module.css";
 
-//plan is to introduce multiple validations in the same text input component, as we will have to use this even on the stepper journey
-//Either we couple this here with the submit button, else we take this same component and reuse it
-//Separate out the normal text input here, club the button and input state here together, required for proper validation
+const PortfolioInput = ({
+  value = "",
+  onChange,
+  placeholder = "Enter your portfolio URL (e.g., https://yourname.com/portfolio)",
+  label = "Portfolio Link",
+  required = false,
+}) => {
+  const [inputValue, setInputValue] = useState(value);
 
-function PortfolioInput() {
+  const handleInputChange = (e) => {
+    const newValue = e.target.value;
+    setInputValue(newValue);
+
+    // Call parent callbacks
+    if (onChange) {
+      onChange(newValue);
+    }
+  };
+
+  const handleBlur = () => {
+    setIsTouched(true);
+  };
+
+  const handleFocus = () => {
+    setErrorMessage("");
+  };
+
   return (
-    <div>
-      <input />
+    <div className={styles.container}>
+      <label className={styles.label} htmlFor="portfolio-input">
+        {label}
+        {required && <span className={styles.required}>*</span>}
+      </label>
+
+      <div className={styles.inputWrapper}>
+        <input
+          id="portfolio-input"
+          type="url"
+          value={inputValue}
+          onChange={handleInputChange}
+          onBlur={handleBlur}
+          onFocus={handleFocus}
+          placeholder={placeholder}
+        />
+      </div>
+
+      <div className={styles.helperText}>
+        Supported platforms: Canva, Behance, Dribbble, GitHub Pages, Personal
+        websites, and more
+      </div>
+
+      <button
+        type="submit"
+        style={{
+          marginTop: "1rem",
+          padding: "0.75rem 1.5rem",
+          color: "white",
+          border: "none",
+          borderRadius: "0.5rem",
+          fontSize: "1rem",
+          transition: "background-color 0.2s",
+        }}
+      >
+        Submit Portfolio
+      </button>
     </div>
   );
-}
+};
 
 export default PortfolioInput;

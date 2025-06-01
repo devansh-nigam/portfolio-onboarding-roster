@@ -68,7 +68,7 @@
   padding: 0 20px;
   border: none;
   border: 1px solid transparent;
-  transition: background 0.2s, color 0.2s, border-color 0.2s;
+  /* transition: background 0.2s, color 0.2s, border-color 0.2s; */
   cursor: pointer;
   display: flex;
   align-items: center;
@@ -163,3 +163,13 @@ a.secondary {
     filter: invert();
   }
 } */
+
+.homepage {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  width: 100%;
+  padding: 80px 40px;
+  min-width: 300px;
+}

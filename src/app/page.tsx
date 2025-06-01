@@ -1,9 +1,10 @@
-import styles from "./page.module.css";
 import PortfolioInput from "@/components/PortfolioInput/PortfolioInput";
+import styles from "./page.module.css";
 
 export default function Home() {
   return (
-    <div className={styles.page}>
+    <div className={styles["homepage"]}>
+      <h1>Hello Roster!</h1>
       <PortfolioInput />
     </div>
   );
