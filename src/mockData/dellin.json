@@ -1,0 +1,23 @@
+{
+  "creator": {
+    "name": "Dellin Zhang",
+    "title": "Filmmaker, Video Editor, Writer",
+    "bio": "Multidisciplinary creative pursuing potent and human stories..."
+  },
+  "portfolio": {
+    "categories": [
+      {
+        "name": "Film",
+        "content": [{ "title": "Documentary Short", "type": "video" }]
+      },
+      {
+        "name": "Video Edit",
+        "content": [{ "title": "Commercial Edit", "type": "video" }]
+      },
+      {
+        "name": "Writing",
+        "content": [{ "title": "Essay Collection", "type": "document" }]
+      }
+    ]
+  }
+}

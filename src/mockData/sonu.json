@@ -1,0 +1,72 @@
+{
+  "metadata": {
+    "source_url": "https://sonuchoudhary.my.canva.site/portfolio",
+    "creator_type": "video_editor"
+  },
+  "creator": {
+    "name": "Sonu Choudhary",
+    "title": "Video Editor",
+    "bio": "I specialize in YouTube video editing, crafting high-quality content...",
+    "avatar": "/path/to/sonu-avatar.jpg",
+    "contact": {
+      "email": "jabsvideo19@gmail.com",
+      "social_links": [
+        {
+          "platform": "instagram",
+          "url": "https://www.instagram.com/jabsvideo.in/"
+        },
+        {
+          "platform": "youtube",
+          "url": "https://www.youtube.com/@theeditingentrepreneur"
+        }
+      ]
+    }
+  },
+  "portfolio": {
+    "categories": [
+      {
+        "name": "Shorts & Reels",
+        "content": [
+          {
+            "title": "YouTube Short #1",
+            "type": "video",
+            "url": "https://youtube.com/shorts/8AGB1xLj-Vc",
+            "platform": "youtube",
+            "stats": { "duration": "0:30", "views": 15000 }
+          }
+        ]
+      },
+      {
+        "name": "Talking Head Videos",
+        "content": [
+          {
+            "title": "Interview Style Edit",
+            "type": "video",
+            "url": "https://youtu.be/B6yRSDWiou4",
+            "platform": "youtube"
+          }
+        ]
+      }
+    ],
+    "featured_work": [
+      {
+        "title": "Viral Video for Uptin",
+        "client": "Uptin Saiidi",
+        "stats": { "views": 1000000 }
+      }
+    ]
+  },
+  "testimonials": [
+    {
+      "client_name": "Lior Roisman",
+      "client_title": "Founder of GOLD COSMETICS",
+      "content": "I was blown away by the quality of editing!..."
+    }
+  ],
+  "skills": ["Adobe Premiere Pro", "After Effects", "Motion Graphics"],
+  "stats": {
+    "years_experience": "5+",
+    "total_views": "5000000",
+    "clients_worked_with": 50
+  }
+}

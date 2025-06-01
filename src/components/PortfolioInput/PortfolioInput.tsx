@@ -139,6 +139,7 @@ const PortfolioInput = () => {
         <input
           id="portfolio-input"
           type="url"
+          maxLength={300}
           value={inputValue}
           onKeyDown={handleKeyDown}
           onChange={handleInputChange}
