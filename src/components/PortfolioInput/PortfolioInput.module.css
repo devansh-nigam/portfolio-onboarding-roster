@@ -1,0 +1,146 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-3);
+  width: 100%;
+  max-width: 500px;
+  margin-top: 20px;
+}
+
+.label {
+  font-size: var(--text-sm);
+  font-weight: 500;
+  color: var(--color-text-primary);
+}
+
+.required {
+  color: var(--color-red-500);
+  margin-left: var(--spacing-1);
+}
+
+.inputWrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.input {
+  width: 100%;
+  padding: var(--spacing-4) var(--spacing-5);
+  border: 2px solid var(--color-border-default);
+  border-radius: var(--radius-md);
+  font-size: var(--text-base);
+  line-height: 1.5;
+  background-color: var(--color-bg-input);
+  color: var(--color-text-primary);
+  transition: all 0.2s ease-in-out;
+  outline: none;
+}
+
+.input:focus {
+  border-color: var(--color-blue-500);
+  box-shadow: 0 0 0 3px var(--color-blue-100);
+}
+
+.input:hover:not(:focus) {
+  border-color: var(--color-border-hover);
+}
+
+.input.valid {
+  border-color: var(--color-green-500);
+  padding-right: var(--spacing-12);
+}
+
+.input.valid:focus {
+  border-color: var(--color-green-500);
+  box-shadow: 0 0 0 3px var(--color-green-100);
+}
+
+.input.invalid {
+  border-color: var(--color-red-500);
+  padding-right: var(--spacing-12);
+}
+
+.input.invalid:focus {
+  border-color: var(--color-red-500);
+  box-shadow: 0 0 0 3px var(--color-red-100);
+}
+
+.input::placeholder {
+  color: var(--color-placeholder);
+}
+
+.validIcon {
+  position: absolute;
+  right: var(--spacing-4);
+  color: var(--color-green-500);
+  pointer-events: none;
+  animation: fadeIn 0.2s ease-in-out;
+}
+
+.invalidIcon {
+  position: absolute;
+  right: var(--spacing-4);
+  color: var(--color-red-500);
+  pointer-events: none;
+  animation: fadeIn 0.2s ease-in-out;
+}
+
+.errorMessage {
+  font-size: var(--text-sm);
+  color: var(--color-red-500);
+  margin-top: var(--spacing-2);
+  animation: slideDown 0.2s ease-in-out;
+}
+
+.helperText {
+  font-size: var(--text-xs);
+  color: var(--color-text-secondary);
+  margin-top: var(--spacing-2);
+  line-height: 1.4;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-0.5rem);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (max-width: 640px) {
+  .input {
+    padding: 0.625rem 0.875rem;
+    font-size: var(--text-sm);
+  }
+
+  .input.valid,
+  .input.invalid {
+    padding-right: 2.5rem;
+  }
+
+  .validIcon,
+  .invalidIcon {
+    right: 0.625rem;
+  }
+
+  .validIcon svg,
+  .invalidIcon svg {
+    width: 18px;
+    height: 18px;
+  }
+}

@@ -172,4 +172,5 @@ a.secondary {
   width: 100%;
   padding: 80px 40px;
   min-width: 300px;
+  gap: 20px;
 }
