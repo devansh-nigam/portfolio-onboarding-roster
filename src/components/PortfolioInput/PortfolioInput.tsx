@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import styles from "./PortfolioInput.module.css";
 import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
@@ -10,6 +10,7 @@ const PortfolioInput = () => {
   const [errorMessage, setErrorMessage] = useState("");
   const [isTouched, setIsTouched] = useState(false);
   const router = useRouter();
+  const submitButtonRef = useRef<HTMLButtonElement>(null);
 
   function validatePortfolioLink(url: string) {
     if (!url.trim()) {
@@ -79,12 +80,31 @@ const PortfolioInput = () => {
     setErrorMessage(validation.message);
   };
 
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter") {
+      e.preventDefault(); // Prevent form submission if inside a form
+
+      if (isValid) {
+        // Focus the button first
+        submitButtonRef.current?.focus();
+        // Then trigger the submit action
+        handleSubmit();
+      }
+    }
+  };
+
   const handleBlur = () => {
     setIsTouched(true);
   };
 
   const handleFocus = () => {
     setErrorMessage("");
+  };
+
+  const handleSubmit = () => {
+    if (isValid) {
+      router.push("/onboarding");
+    }
   };
 
   const getInputClassName = () => {
@@ -120,6 +140,7 @@ const PortfolioInput = () => {
           id="portfolio-input"
           type="url"
           value={inputValue}
+          onKeyDown={handleKeyDown}
           onChange={handleInputChange}
           onBlur={handleBlur}
           onFocus={handleFocus}
@@ -191,9 +212,7 @@ const PortfolioInput = () => {
         }}
         onClick={(e) => {
           e.preventDefault();
-          if (isValid) {
-            router.push("/onboarding");
-          }
+          handleSubmit();
         }}
       >
         Submit Portfolio
