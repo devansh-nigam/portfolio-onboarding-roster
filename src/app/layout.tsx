@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
+import Link from "next/link";
+import Image from "next/image";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -25,7 +27,32 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${geistSans.variable} ${geistMono.variable}`}>
-        {children}
+        <nav className="navbar">
+          <div className="navbar-container">
+            <Link href="/" className="logo">
+              roster
+            </Link>
+            <div className="profile-section">
+              <div className="avatar">
+                <Image
+                  src="/images/profilePhoto.jpg"
+                  alt="Profile"
+                  width={32}
+                  height={32}
+                  className="profile-image"
+                  priority
+                  quality={50}
+                />
+              </div>
+            </div>
+          </div>
+        </nav>
+
+        <div className="main-grid">
+          <div className="sidebar-left"></div>
+          <main className="content">{children}</main>
+          <div className="sidebar-right"></div>
+        </div>
       </body>
     </html>
   );
