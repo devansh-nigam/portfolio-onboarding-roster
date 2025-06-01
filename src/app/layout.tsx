@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import Link from "next/link";
 import Image from "next/image";
+import AnimatedContent from "./AnimatedContent";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -50,7 +51,10 @@ export default function RootLayout({
 
         <div className="main-grid">
           <div className="sidebar-left"></div>
-          <main className="content">{children}</main>
+          {/* <ConditionalContent>
+            <AnimatedContent>{children}</AnimatedContent>
+          </ConditionalContent> */}
+          <AnimatedContent>{children}</AnimatedContent>
           <div className="sidebar-right"></div>
         </div>
       </body>

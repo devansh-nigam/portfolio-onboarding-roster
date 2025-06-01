@@ -216,7 +216,7 @@ const PortfolioInput = () => {
           handleSubmit();
         }}
       >
-        Submit Portfolio
+        Upload Portfolio
       </motion.button>
     </motion.div>
   );

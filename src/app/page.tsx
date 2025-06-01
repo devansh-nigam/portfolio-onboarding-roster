@@ -31,7 +31,7 @@ export default function Home() {
           variant="letterBounce"
           fontSize="1rem"
           fontWeight={"bold"}
-          color="var(--color-gray-400)"
+          color="var(--color-gray-500)"
           duration={0.6} // Slower animation (default: 0.6s)
           delay={4}
         />
