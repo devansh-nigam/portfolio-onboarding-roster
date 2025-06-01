@@ -1,0 +1,321 @@
+.sidebarContainer {
+  position: relative;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 420px;
+  background: var(--color-gray-800);
+  border-left: 1px solid rgba(255, 255, 255, 0.15);
+  z-index: 50;
+  overflow: hidden;
+}
+
+.sidebarContent {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  padding: 2rem 0;
+}
+
+.sidebarHeader {
+  padding: 0 2rem 2rem;
+  text-align: center;
+}
+
+.sidebarTitle {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.9);
+  margin: 0 0 0.5rem 0;
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.sidebarSubtitle {
+  font-size: 0.875rem;
+  color: rgba(255, 255, 255, 0.6);
+  margin: 0;
+}
+
+.progressOverview {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  margin-top: 1rem;
+  padding: 1rem;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 1rem;
+  margin: 1rem 2rem 0;
+}
+
+.progressCircle {
+  position: relative;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.progressCircleInner {
+  position: absolute;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: conic-gradient(
+    #667eea 0deg,
+    #764ba2 var(--progress-angle, 0deg),
+    rgba(255, 255, 255, 0.2) var(--progress-angle, 0deg)
+  );
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.progressCircleInner::before {
+  content: "";
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+}
+
+.progressText {
+  position: absolute;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: white;
+  z-index: 1;
+}
+
+.progressStats {
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 0.75rem;
+}
+
+.stepsContainer {
+  flex: 1;
+  overflow-y: auto;
+  padding: 1rem 2rem;
+  mask-image: linear-gradient(
+    to bottom,
+    transparent 0%,
+    black 20px,
+    black calc(100% - 20px),
+    transparent 100%
+  );
+}
+
+.stepItem {
+  position: relative;
+  padding-left: 3rem;
+  margin-bottom: 2rem;
+}
+
+.stepConnector {
+  position: absolute;
+  left: 1.125rem;
+  top: 2.5rem;
+  width: 2px;
+  height: calc(100% + 1rem);
+  background: linear-gradient(to bottom, rgba(255, 255, 255, 0.2), transparent);
+}
+
+.stepConnector.lastStep {
+  display: none;
+}
+
+.stepIcon {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 2.25rem;
+  height: 2.25rem;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.875rem;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  z-index: 2;
+}
+
+.stepIcon.pending {
+  background: rgba(255, 255, 255, 0.1);
+  color: rgba(255, 255, 255, 0.5);
+  border: 2px solid rgba(255, 255, 255, 0.2);
+}
+
+.stepIcon.current {
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  color: white;
+  box-shadow: 0 0 20px rgba(102, 126, 234, 0.4);
+  animation: pulse 2s infinite;
+}
+
+.stepIcon.completed {
+  background: linear-gradient(135deg, #10b981, #059669);
+  color: white;
+  transform: scale(1.1);
+}
+
+.stepIcon.error {
+  background: linear-gradient(135deg, #ef4444, #dc2626);
+  color: white;
+  animation: shake 0.5s ease-in-out;
+}
+
+@keyframes pulse {
+  0%,
+  100% {
+    box-shadow: 0 0 20px rgba(102, 126, 234, 0.4);
+  }
+  50% {
+    box-shadow: 0 0 30px rgba(102, 126, 234, 0.6);
+  }
+}
+
+@keyframes shake {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  25% {
+    transform: translateX(-2px);
+  }
+  75% {
+    transform: translateX(2px);
+  }
+}
+
+.stepContent {
+  padding-top: 0.25rem;
+}
+
+.stepTitle {
+  font-size: 1rem;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.9);
+  margin: 0 0 0.5rem 0;
+  transition: color 0.3s ease;
+}
+
+.stepTitle.current {
+  color: #667eea;
+}
+
+.stepTitle.completed {
+  color: #10b981;
+}
+
+.stepDescription {
+  font-size: 0.875rem;
+  color: rgba(255, 255, 255, 0.6);
+  line-height: 1.4;
+  margin: 0;
+}
+
+.stepMeta {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-top: 0.75rem;
+  font-size: 0.75rem;
+}
+
+.stepStatus {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.25rem 0.5rem;
+  border-radius: 0.5rem;
+  font-weight: 500;
+}
+
+.stepStatus.pending {
+  background: rgba(255, 255, 255, 0.1);
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.stepStatus.current {
+  background: rgba(102, 126, 234, 0.2);
+  color: #667eea;
+}
+
+.stepStatus.completed {
+  background: rgba(16, 185, 129, 0.2);
+  color: #10b981;
+}
+
+.stepStatus.error {
+  background: rgba(239, 68, 68, 0.2);
+  color: #ef4444;
+}
+
+.stepTime {
+  color: rgba(255, 255, 255, 0.4);
+}
+
+.actionButtons {
+  padding: 1.5rem 2rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.primaryButton {
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  color: white;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 0.75rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+}
+
+.primaryButton:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+}
+
+.secondaryButton {
+  background: rgba(255, 255, 255, 0.1);
+  color: rgba(255, 255, 255, 0.8);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  padding: 0.75rem 1.5rem;
+  border-radius: 0.75rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.secondaryButton:hover {
+  background: rgba(255, 255, 255, 0.15);
+  border-color: rgba(255, 255, 255, 0.3);
+}
+
+/* Responsive */
+@media (max-width: 1200px) {
+  .sidebarContainer {
+    width: 360px;
+  }
+}
+
+@media (max-width: 768px) {
+  .sidebarContainer {
+    width: 100%;
+    position: relative;
+    top: 0;
+    height: auto;
+  }
+}
