@@ -30,7 +30,7 @@ export default function RootLayout({
         <nav className="navbar">
           <div className="navbar-container">
             <Link href="/" className="logo">
-              roster
+              <h1 style={{ fontSize: "1.4rem" }}>roster</h1>
             </Link>
             <div className="profile-section">
               <div className="avatar">
