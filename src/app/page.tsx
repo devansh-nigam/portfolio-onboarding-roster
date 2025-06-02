@@ -1,7 +1,6 @@
 import PortfolioInput from "@/components/PortfolioInput/PortfolioInput";
 import styles from "./page.module.css";
 import AnimatedText from "@/components/AnimatedText/AnimatedText";
-import Counter from "./Counter";
 
 export default function Home() {
   return (
@@ -12,7 +11,7 @@ export default function Home() {
         fontSize="4rem"
         color="#000"
         fontWeight="bold"
-        duration={1} // Slower animation (default: 0.6s)
+        duration={1}
         delay={0.5}
         repeat={true}
       />
@@ -24,7 +23,7 @@ export default function Home() {
           fontSize="1.8rem"
           fontWeight={"bold"}
           color="var(--color-gray-700)"
-          duration={0.1} // Slower animation (default: 0.6s)
+          duration={0.1}
           delay={0.5}
         />
         <AnimatedText
@@ -33,14 +32,12 @@ export default function Home() {
           fontSize="1rem"
           fontWeight={"bold"}
           color="var(--color-gray-500)"
-          duration={0.6} // Slower animation (default: 0.6s)
+          duration={0.6}
           delay={4}
         />
       </div>
 
       <PortfolioInput />
-
-      <Counter />
     </div>
   );
 }

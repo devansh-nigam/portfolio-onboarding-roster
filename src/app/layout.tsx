@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import Link from "next/link";
 import Image from "next/image";
-import AnimatedContent from "./AnimatedContent";
+import AnimatedContent from "@components/AnimatedContent/AnimatedContent";
 import "./globals.css";
 import StoreProvider from "./StoreProvider";
 
@@ -50,9 +50,6 @@ function App({
       </nav>
       <div className="main-grid">
         <div className="sidebar-left"></div>
-        {/* <ConditionalContent>
-      <AnimatedContent>{children}</AnimatedContent>
-    </ConditionalContent> */}
         <AnimatedContent>{children}</AnimatedContent>
         <div className="sidebar-right"></div>
       </div>
