@@ -4,7 +4,8 @@ import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import OnboardingStepper from "@/components/OnboardingStepper/OnboardingStepper";
 import styles from "./Onboarding.module.css";
-import { useAppSelector } from "@/lib/hooks";
+import { useAppDispatch, useAppSelector } from "@/lib/hooks";
+import { setStepperStep } from "@/lib/slices/portfolio/portfolioSlice";
 
 type StepStatus = "pending" | "current" | "completed" | "error";
 
@@ -21,6 +22,8 @@ const Onboarding: React.FC = () => {
   const portfolioData = useAppSelector(
     (state) => state.portfolio?.portfolioData
   );
+
+  const dispatch = useAppDispatch();
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [currentStep, setCurrentStep] = useState(2);
@@ -84,6 +87,7 @@ const Onboarding: React.FC = () => {
 
   const handleStepClick = (stepId: number) => {
     console.log("Clicked step:", stepId);
+    dispatch(setStepperStep(stepId - 1));
   };
 
   //   const handleContinue = () => {
