@@ -31,6 +31,9 @@
   --color-text-secondary: var(--color-gray-500);
   --color-placeholder: var(--color-gray-400);
 
+  /** Experimenting with background colors */
+  --onboarding-bg-color: var(--color-gray-800);
+
   /* Spacing */
   --spacing-1: 0.125rem;
   --spacing-2: 0.25rem;
