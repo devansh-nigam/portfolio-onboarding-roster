@@ -2,7 +2,7 @@
   position: relative;
   top: 0;
   left: 0;
-  height: 100%;
+  height: calc(100vh - 64px);
   width: 420px;
   background: var(--color-gray-800);
   border-left: 1px solid rgba(255, 255, 255, 0.15);

@@ -21,7 +21,7 @@ export const mockUsers = [
         {
           id: 2,
           title: "Profile",
-          description: "Add a professional photo to your profile",
+          description: "Update your professional details",
           status: "pending" as const,
           estimatedTime: "1 min",
           data: {
@@ -49,7 +49,7 @@ export const mockUsers = [
         {
           id: 3,
           title: "Work Experience",
-          description: "Import or manually add your work history",
+          description: "Add your employers/clients",
           status: "pending" as const,
           estimatedTime: "5 min",
           data: {
@@ -83,29 +83,8 @@ export const mockUsers = [
         },
         {
           id: 4,
-          title: "Social Links",
-          description: "Import or manually add your work history",
-          status: "pending" as const,
-          estimatedTime: "3 min",
-          data: {
-            socialLinks: [
-              {
-                platform: "instagram",
-                url: "https://www.instagram.com/jabsvideo.in/",
-                handle: "@jabsvideo.in",
-              },
-              {
-                platform: "youtube",
-                url: "https://www.youtube.com/@theeditingentrepreneur",
-                handle: "@theeditingentrepreneur",
-              },
-            ],
-          },
-        },
-        {
-          id: 5,
           title: "Skills & Softwares",
-          description: "Import or manually add your work history",
+          description: "Your toolkit to stand you apart!",
           status: "pending" as const,
           estimatedTime: "3 min",
           data: {
@@ -150,6 +129,27 @@ export const mockUsers = [
               "Excel",
               "Adobe Firefly",
               "Asana",
+            ],
+          },
+        },
+        {
+          id: 5,
+          title: "Social Links",
+          description: "Let them reach out to you fast!",
+          status: "pending" as const,
+          estimatedTime: "2 min",
+          data: {
+            socialLinks: [
+              {
+                platform: "instagram",
+                url: "https://www.instagram.com/jabsvideo.in/",
+                handle: "@jabsvideo.in",
+              },
+              {
+                platform: "youtube",
+                url: "https://www.youtube.com/@theeditingentrepreneur",
+                handle: "@theeditingentrepreneur",
+              },
             ],
           },
         },

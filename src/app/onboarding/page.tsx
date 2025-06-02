@@ -84,7 +84,6 @@ const Onboarding: React.FC = () => {
 
   const handleStepClick = (stepId: number) => {
     console.log("Clicked step:", stepId);
-    // Handle step navigation
   };
 
   //   const handleContinue = () => {
