@@ -6,14 +6,17 @@ const mockUsers = [
     portfolio: {
       sections: [
         {
-          sectionName: "Profile",
-          firstName: "Sonu",
-          lastName: "Choudhary",
-          title: "Video Editor & Content Creator",
+          sectionName: "Upload Profile Photo",
           profileImage: {
             url: "https://sonuchoudhary.my.canva.site/portfolio/_assets/media/dd90340b9434fd961b83cd0676a3470e.png",
             alt: "Sonu Choudhary profile picture",
           },
+        },
+        {
+          sectionName: "Profile",
+          firstName: "Sonu",
+          lastName: "Choudhary",
+          title: "Video Editor & Content Creator",
           summary:
             "I specialize in YouTube video editing, crafting high-quality content that captivates audiences and drives engagement. I've had the privilege of working with top creators like Uptin (3M+ followers) and XYZ Education (1M+ subscribers), contributing to content that has amassed over 5 million organic views.",
           website: "https://sonuchoudhary.my.canva.site/portfolio",

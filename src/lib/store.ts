@@ -1,10 +1,10 @@
 import { configureStore } from "@reduxjs/toolkit";
-import counterSlice from "./slices/counter/counterSlice";
+import portfolioReducer from "./slices/portfolio/portfolioSlice";
 
 export const makeStore = () => {
   return configureStore({
     reducer: {
-      counter: counterSlice,
+      portfolio: portfolioReducer,
     },
   });
 };

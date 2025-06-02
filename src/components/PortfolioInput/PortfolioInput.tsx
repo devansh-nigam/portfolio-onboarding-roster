@@ -3,6 +3,8 @@ import { useRef, useState } from "react";
 import styles from "./PortfolioInput.module.css";
 import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
+import { setPortfolioDataFromAPI } from "@/lib/slices/portfolio/portfolioSlice";
+import { useAppDispatch } from "@/lib/hooks";
 
 interface Portfolio {
   profile: {
@@ -79,6 +81,7 @@ const PortfolioInput = () => {
   const [errorMessage, setErrorMessage] = useState("");
   const [isTouched, setIsTouched] = useState(false);
   const router = useRouter();
+  const dispatch = useAppDispatch();
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [loading, setLoading] = useState(false);
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -195,6 +198,7 @@ const PortfolioInput = () => {
         if (data.success) {
           const portfolio = data.data;
           console.log("Portfolio data:", portfolio);
+          dispatch(setPortfolioDataFromAPI(portfolio));
           router.push("/onboarding");
         } else {
           setError(data.error || "Failed to fetch portfolio");
