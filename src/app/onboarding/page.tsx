@@ -5,7 +5,12 @@ import { motion } from "framer-motion";
 import OnboardingStepper from "@/components/OnboardingStepper/OnboardingStepper";
 import styles from "./Onboarding.module.css";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
-import { setStepperStep } from "@/lib/slices/portfolio/portfolioSlice";
+import {
+  setPortfolioDataFromAPI,
+  setStepperStep,
+} from "@/lib/slices/portfolio/portfolioSlice";
+import ProfileSection from "@/components/Sections/ProfileSection/ProfileSection";
+import ProfilePhotoSection from "@/components/Sections/ProfilePhotoSection/ProfilePhotoSection";
 
 type StepStatus = "pending" | "current" | "completed" | "error";
 
@@ -16,89 +21,199 @@ interface Step {
   status: StepStatus;
   estimatedTime?: string;
   errorMessage?: string;
+  originalStatus?: StepStatus;
+  data?: object;
 }
 
 const Onboarding: React.FC = () => {
   const portfolioData = useAppSelector(
     (state) => state.portfolio?.portfolioData
   );
+  const currentStepIndex = useAppSelector(
+    (state) => state.portfolio?.stepper?.currentStep || 0
+  );
 
   const dispatch = useAppDispatch();
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [currentStep, setCurrentStep] = useState(2);
+  const [currentStep, setCurrentStep] = useState(1);
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [steps, setSteps] = useState<Step[]>([]);
 
-  /**
- *  [
-    {
-      id: 1,
-      title: "Connect Portfolio",
-      description: "Link your existing portfolio or create a new one",
-      status: "completed" as const,
-      estimatedTime: "2 min",
-    },
-    {
-      id: 2,
-      title: "Upload Profile Photo",
-      description: "Add a professional photo to your profile",
-      status: "current" as const,
-      estimatedTime: "1 min",
-    },
-    {
-      id: 3,
-      title: "Add Work Experience",
-      description: "Import or manually add your work history",
-      status: "error" as const,
-      estimatedTime: "5 min",
-    },
-    {
-      id: 4,
-      title: "Setup Skills & Technologies",
-      description: "List your technical skills and expertise",
-      status: "completed" as const,
-      estimatedTime: "3 min",
-    },
-    {
-      id: 5,
-      title: "Import Projects",
-      description: "Showcase your best work and projects",
-      status: "completed" as const,
-      estimatedTime: "5 min",
-      errorMessage:
-        "Failed to connect to GitHub. Please check your permissions.",
-    },
-    {
-      id: 6,
-      title: "Review & Publish",
-      description: "Final review before making your portfolio live",
-      status: "completed" as const,
-      estimatedTime: "2 min",
-    },
-  ]
- * 
- * 
- * 
- */
+  const renderCurrentSection = () => {
+    const currentSection = steps.find((step) => step.status === "current");
 
-  useEffect(() => setSteps(portfolioData?.sections || []), [portfolioData]);
+    //return <ProfileSection sectionData={currentSection} />;
+
+    switch (currentSection?.id) {
+      case 1: // Profile Photo section
+        return <ProfilePhotoSection sectionData={currentSection} />;
+      case 2: // Profile section ID
+        return <ProfileSection sectionData={currentSection} />;
+      default:
+        return (
+          <div className={styles.contentBody}>
+            <h1>Section not implemented yet</h1>
+            <p>Current step: {currentSection?.title}</p>
+          </div>
+        );
+    }
+  };
+
+  useEffect(() => {
+    if (portfolioData?.sections) {
+      const initialSteps = portfolioData.sections.map(
+        (section: Step, index: number) => ({
+          ...section,
+          originalStatus: section.status, // Store original status
+          status: index === currentStepIndex ? "current" : section.status,
+        })
+      );
+      setSteps(initialSteps);
+    }
+  }, [portfolioData, currentStepIndex]);
 
   const handleStepClick = (stepId: number) => {
     console.log("Clicked step:", stepId);
     dispatch(setStepperStep(stepId - 1));
   };
 
-  //   const handleContinue = () => {
-  //     console.log("Continue clicked");
-  //     // Handle continue action
-  //   };
+  // Update step status when navigating
+  const updateStepStatus = (
+    stepIndex: number,
+    newStatus: StepStatus,
+    shouldUpdateOriginal = false
+  ) => {
+    const updatedSteps = steps.map((step, index) => {
+      if (index === stepIndex) {
+        return {
+          ...step,
+          status: newStatus,
+          originalStatus: shouldUpdateOriginal
+            ? newStatus
+            : step.originalStatus,
+        };
+      }
+      return step;
+    });
 
-  //   const handleSkip = () => {
-  //     console.log("Skip clicked");
-  //     // Handle skip action
-  //   };
+    setSteps(updatedSteps);
+
+    // Update portfolio data in Redux
+    const updatedPortfolioData = {
+      ...portfolioData,
+      sections: updatedSteps.map((step) => ({
+        ...step,
+        status: step.originalStatus, // Always use original status in portfolio data
+      })),
+    };
+
+    dispatch(setPortfolioDataFromAPI(updatedPortfolioData));
+  };
+
+  const navigateToStep = (targetStepIndex: number) => {
+    if (targetStepIndex < 0 || targetStepIndex >= steps.length) return;
+
+    // Auto-complete current step if it has valid data
+    if (currentStepIndex < steps.length) {
+      const currentStep = steps[currentStepIndex];
+      const isValid = validateCurrentStep(currentStep);
+
+      if (isValid) {
+        // Mark current step as completed since it has valid data
+        const updatedSteps = [...steps];
+        updatedSteps[currentStepIndex] = {
+          ...updatedSteps[currentStepIndex],
+          originalStatus: "completed",
+        };
+        setSteps(updatedSteps);
+        updateStepStatus(currentStepIndex, "completed", true);
+      } else {
+        // Restore to original status if not valid
+        updateStepStatus(
+          currentStepIndex,
+          steps[currentStepIndex].originalStatus || "pending"
+        );
+      }
+    }
+
+    // Set new step as current
+    updateStepStatus(targetStepIndex, "current");
+
+    // Update Redux stepper state
+    dispatch(setStepperStep(targetStepIndex));
+  };
+
+  const handleBack = () => {
+    const previousStepIndex = currentStepIndex - 1;
+    if (previousStepIndex >= 0) {
+      navigateToStep(previousStepIndex);
+    }
+  };
+
+  // Handle continue button
+  const handleContinue = () => {
+    const nextStepIndex = currentStepIndex + 1;
+
+    // Navigate to next step if available
+    if (nextStepIndex < steps.length) {
+      navigateToStep(nextStepIndex); // This will auto-complete current step if valid
+    } else {
+      // All steps completed - could navigate to final review or dashboard
+      console.log("All onboarding steps completed!");
+      alert("Congratulations! You've completed your portfolio setup.");
+    }
+  };
+
+  const validateCurrentStep = (step: Step): boolean => {
+    if (!step) return false;
+
+    switch (step.id) {
+      case 1: // Profile Photo
+        const photoData = step.data?.profileImage;
+        // Also check the original portfolio data as backup
+        const originalPhotoData = portfolioData?.sections?.find(
+          (s) => s.id === 1
+        )?.data?.profileImage;
+
+        const hasValidPhoto =
+          (photoData?.url && photoData.url.trim() !== "") ||
+          (originalPhotoData?.url && originalPhotoData.url.trim() !== "");
+
+        return hasValidPhoto;
+
+      case 2: // Profile
+        const profileData = step.data;
+        return !!(
+          profileData?.firstName?.trim() &&
+          profileData?.lastName?.trim() &&
+          profileData?.title?.trim() &&
+          profileData?.contact?.email?.trim() &&
+          profileData?.location?.city?.trim() &&
+          profileData?.location?.country?.trim()
+        );
+
+      case 3: // Work Experience
+        const workData = step.data?.workExperience;
+        return workData && Array.isArray(workData) && workData.length > 0;
+
+      case 4: // Skills
+        const skillsData = step.data;
+        return !!(
+          skillsData?.skills &&
+          Array.isArray(skillsData.skills) &&
+          skillsData.skills.length > 0
+        );
+
+      case 5: // Social Links
+        const socialData = step.data?.socialLinks;
+        return socialData && Array.isArray(socialData) && socialData.length > 0;
+
+      default:
+        return true;
+    }
+  };
 
   const contentVariants = {
     hidden: { opacity: 0, y: 20 },
@@ -112,14 +227,15 @@ const Onboarding: React.FC = () => {
     },
   };
 
+  const isLastStep = currentStepIndex === steps.length - 1;
+
   return (
     <div className={styles.onboardingContainer}>
       <OnboardingStepper
         steps={steps}
-        currentStep={currentStep}
+        // currentStep={currentStep}
+        currentStep={currentStepIndex + 1}
         onStepClick={handleStepClick}
-        // onContinue={handleContinue}
-        // onSkip={handleSkip}
       />
 
       <motion.div
@@ -129,15 +245,15 @@ const Onboarding: React.FC = () => {
         animate="visible"
       >
         <div className={styles.actionFooter}>
-          <button className={styles.backButton}>← Back</button>
-          <button className={styles.nextButton}>Continue →</button>
+          <button className={styles.backButton} onClick={handleBack}>
+            ← Back
+          </button>
+          <button className={styles.nextButton} onClick={handleContinue}>
+            {isLastStep ? "Complete Setup" : "Continue"} →
+          </button>
         </div>
 
-        <div className={styles.contentHeader}>
-          <h1>Are you able to see me?</h1>
-        </div>
-
-        <div className={styles.contentBody}></div>
+        {renderCurrentSection()}
       </motion.div>
     </div>
   );

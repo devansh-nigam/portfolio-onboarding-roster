@@ -13,6 +13,8 @@ interface Step {
   status: StepStatus;
   estimatedTime?: string;
   errorMessage?: string;
+  originalStatus?: StepStatus;
+  data?: object;
 }
 
 interface OnboardingStepperProps {
@@ -30,7 +32,7 @@ const OnboardingStepper: React.FC<OnboardingStepperProps> = ({
   onStepClick,
 }) => {
   const completedSteps = steps?.filter(
-    (step) => step.status === "completed"
+    (step) => step.originalStatus === "completed" || step.status === "completed" // Check both statuses
   ).length;
   const totalSteps = steps?.length;
   const progressPercentage = (completedSteps / totalSteps) * 100;

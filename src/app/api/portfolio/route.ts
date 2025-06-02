@@ -9,11 +9,11 @@ export const mockUsers = [
           id: 1,
           title: "Upload Profile Photo",
           description: "Link your existing portfolio or create a new one",
-          status: "current" as const,
+          status: "pending" as const,
           estimatedTime: "2 min",
           data: {
             profileImage: {
-              url: "https://sonuchoudhary.my.canva.site/portfolio/_assets/media/dd90340b9434fd961b83cd0676a3470e.png",
+              url: "",
               alt: "Sonu Choudhary profile picture",
             },
           },
@@ -198,3 +198,55 @@ export async function POST(request: NextRequest) {
     );
   }
 }
+
+/**
+ *  [
+    {
+      id: 1,
+      title: "Connect Portfolio",
+      description: "Link your existing portfolio or create a new one",
+      status: "completed" as const,
+      estimatedTime: "2 min",
+    },
+    {
+      id: 2,
+      title: "Upload Profile Photo",
+      description: "Add a professional photo to your profile",
+      status: "current" as const,
+      estimatedTime: "1 min",
+    },
+    {
+      id: 3,
+      title: "Add Work Experience",
+      description: "Import or manually add your work history",
+      status: "error" as const,
+      estimatedTime: "5 min",
+    },
+    {
+      id: 4,
+      title: "Setup Skills & Technologies",
+      description: "List your technical skills and expertise",
+      status: "completed" as const,
+      estimatedTime: "3 min",
+    },
+    {
+      id: 5,
+      title: "Import Projects",
+      description: "Showcase your best work and projects",
+      status: "completed" as const,
+      estimatedTime: "5 min",
+      errorMessage:
+        "Failed to connect to GitHub. Please check your permissions.",
+    },
+    {
+      id: 6,
+      title: "Review & Publish",
+      description: "Final review before making your portfolio live",
+      status: "completed" as const,
+      estimatedTime: "2 min",
+    },
+  ]
+ * 
+ * 
+ * 
+ */

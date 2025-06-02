@@ -7,8 +7,8 @@
 
 .mainContent {
   flex: 1;
-  margin-left: 0;
-  background-color: var(--color-gray-800);
+  margin-left: 400px;
+  background-color: var(--onboarding-bg-color);
   border-bottom-right-radius: 1rem;
   max-width: none;
 }
@@ -51,7 +51,7 @@
   justify-content: space-between;
   align-items: center;
   padding: 2rem;
-  background-color: var(--color-gray-800);
+  background-color: var(--onboarding-bg-color);
   border-top: 1px solid rgba(255, 255, 255, 0.1);
   width: "100%";
 }
@@ -120,5 +120,28 @@
   .backButton,
   .nextButton {
     width: 100%;
+  }
+}
+
+@media (max-width: 1200px) {
+  .mainContent {
+    margin-left: 360px; /* Match the reduced sidebar width */
+  }
+}
+
+@media (max-width: 768px) {
+  .onboardingContainer {
+    flex-direction: column;
+  }
+
+  .mainContent {
+    margin-left: 0; /* Remove margin on mobile */
+  }
+
+  /* Hide sidebar on mobile or make it overlay */
+  .sidebarContainer {
+    position: relative; /* Reset to relative on mobile */
+    width: 100%;
+    height: auto;
   }
 }
