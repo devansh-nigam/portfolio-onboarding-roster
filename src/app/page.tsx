@@ -1,6 +1,7 @@
 import PortfolioInput from "@/components/PortfolioInput/PortfolioInput";
 import styles from "./page.module.css";
 import AnimatedText from "@/components/AnimatedText/AnimatedText";
+import Counter from "./Counter";
 
 export default function Home() {
   return (
@@ -38,6 +39,8 @@ export default function Home() {
       </div>
 
       <PortfolioInput />
+
+      <Counter />
     </div>
   );
 }
