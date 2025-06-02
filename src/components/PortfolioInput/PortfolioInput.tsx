@@ -4,16 +4,70 @@ import styles from "./PortfolioInput.module.css";
 import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
 
-interface User {
-  id: number;
-  name: string;
-  email: string;
-  role: string;
+interface Portfolio {
+  profile: {
+    firstName: string;
+    lastName: string;
+    title: string;
+    profileImage: {
+      url: string;
+      alt: string;
+    };
+    summary: string;
+    website: string;
+    location: {
+      city: string;
+      country: string;
+      timezone: string;
+    };
+    contact: {
+      email: string;
+      phone: string;
+      socialLinks: Array<{
+        platform: string;
+        url: string;
+        handle: string;
+      }>;
+    };
+  };
+  workExperience: Array<{
+    id: string;
+    type: string;
+    companyName: string;
+    jobTitle: string;
+    startDate: string;
+    endDate: string | null;
+    durationOfEmployment: string;
+    employmentType: string;
+    isCurrentRole: boolean;
+    summary: string;
+    portfolioItems: Array<{
+      id: string;
+      title: string;
+      thumbnail: string;
+      videoUrl: string;
+      duration: string;
+      views: string;
+    }>;
+  }>;
+  skills: string[];
+  softwares: string[];
+  languages: Array<{
+    name: string;
+    level: string;
+  }>;
+  metadata: {
+    profileCompleteness: number;
+    isVerified: boolean;
+    isAvailableForWork: boolean;
+    lastUpdated: string;
+    createdAt: string;
+  };
 }
 
 interface ApiResponse {
   success: boolean;
-  data: User[];
+  data: Portfolio;
   total: number;
   message?: string;
   error?: string;
@@ -101,12 +155,10 @@ const PortfolioInput = () => {
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter") {
-      e.preventDefault(); // Prevent form submission if inside a form
+      e.preventDefault();
 
       if (isValid) {
-        // Focus the button first
         submitButtonRef.current?.focus();
-        // Then trigger the submit action
         handleSubmit();
       }
     }
@@ -126,16 +178,26 @@ const PortfolioInput = () => {
       setError(null);
 
       try {
-        const role = "admin";
+        const portfolioUrl = "https://sonuchoudhary.my.canva.site/portfolio";
 
-        const url = role ? `/api/users?role=${role}` : "/api/users";
-        const response = await fetch(url);
+        const response = await fetch("/api/portfolio", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            url: portfolioUrl,
+          }),
+        });
+
         const data: ApiResponse = await response.json();
 
         if (data.success) {
+          const portfolio = data.data;
+          console.log("Portfolio data:", portfolio);
           router.push("/onboarding");
         } else {
-          setError(data.error || "Failed to fetch users");
+          setError(data.error || "Failed to fetch portfolio");
         }
       } catch (err) {
         console.warn(err);
