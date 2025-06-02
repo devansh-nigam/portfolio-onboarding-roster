@@ -4,12 +4,31 @@ import styles from "./PortfolioInput.module.css";
 import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
 
+interface User {
+  id: number;
+  name: string;
+  email: string;
+  role: string;
+}
+
+interface ApiResponse {
+  success: boolean;
+  data: User[];
+  total: number;
+  message?: string;
+  error?: string;
+}
+
 const PortfolioInput = () => {
   const [inputValue, setInputValue] = useState("");
   const [isValid, setIsValid] = useState<boolean | null>(null);
   const [errorMessage, setErrorMessage] = useState("");
   const [isTouched, setIsTouched] = useState(false);
   const router = useRouter();
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const [loading, setLoading] = useState(false);
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const [error, setError] = useState<string | null>(null);
   const submitButtonRef = useRef<HTMLButtonElement>(null);
 
   function validatePortfolioLink(url: string) {
@@ -101,9 +120,29 @@ const PortfolioInput = () => {
     setErrorMessage("");
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     if (isValid) {
-      router.push("/onboarding");
+      setLoading(true);
+      setError(null);
+
+      try {
+        const role = "admin";
+
+        const url = role ? `/api/users?role=${role}` : "/api/users";
+        const response = await fetch(url);
+        const data: ApiResponse = await response.json();
+
+        if (data.success) {
+          router.push("/onboarding");
+        } else {
+          setError(data.error || "Failed to fetch users");
+        }
+      } catch (err) {
+        console.warn(err);
+        setError("Network error occurred");
+      } finally {
+        setLoading(false);
+      }
     }
   };
 
