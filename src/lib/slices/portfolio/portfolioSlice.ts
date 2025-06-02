@@ -15,8 +15,12 @@ export const portfolioSlice = createSlice({
     setPortfolioDataFromAPI: (state, action) => {
       state.portfolioData = action.payload;
     },
+    setStepperStep: (state, action) => {
+      state.stepper.currentStep = action.payload;
+    },
   },
 });
 
-export const { setPortfolioDataFromAPI } = portfolioSlice.actions;
+export const { setPortfolioDataFromAPI, setStepperStep } =
+  portfolioSlice.actions;
 export default portfolioSlice.reducer;

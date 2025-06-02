@@ -133,9 +133,7 @@ const Onboarding: React.FC = () => {
           <h1>Are you able to see me?</h1>
         </div>
 
-        <div className={styles.contentBody}>
-          <h1>Hello world</h1>
-        </div>
+        <div className={styles.contentBody}></div>
       </motion.div>
     </div>
   );
