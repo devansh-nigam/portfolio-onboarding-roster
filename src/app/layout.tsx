@@ -68,7 +68,6 @@ export default function RootLayout({
         <StoreProvider>
           <App>{children}</App>
         </StoreProvider>
-        ;
       </body>
     </html>
   );
