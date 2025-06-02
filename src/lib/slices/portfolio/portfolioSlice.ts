@@ -1,7 +1,11 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { mockUsers } from "@/app/api/portfolio/route";
 
 const initialState = {
-  portfolioData: {},
+  portfolioData: mockUsers[0].portfolio,
+  stepper: {
+    currentStep: 0,
+  },
 };
 
 export const portfolioSlice = createSlice({

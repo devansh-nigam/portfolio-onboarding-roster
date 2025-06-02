@@ -1,16 +1,35 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import OnboardingStepper from "@/components/OnboardingStepper/OnboardingStepper";
 import styles from "./Onboarding.module.css";
+import { useAppSelector } from "@/lib/hooks";
+
+type StepStatus = "pending" | "current" | "completed" | "error";
+
+interface Step {
+  id: number;
+  title: string;
+  description: string;
+  status: StepStatus;
+  estimatedTime?: string;
+  errorMessage?: string;
+}
 
 const Onboarding: React.FC = () => {
+  const portfolioData = useAppSelector(
+    (state) => state.portfolio?.portfolioData
+  );
+
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [currentStep, setCurrentStep] = useState(2);
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [steps, setSteps] = useState([
+  const [steps, setSteps] = useState<Step[]>([]);
+
+  /**
+ *  [
     {
       id: 1,
       title: "Connect Portfolio",
@@ -55,22 +74,28 @@ const Onboarding: React.FC = () => {
       status: "completed" as const,
       estimatedTime: "2 min",
     },
-  ]);
+  ]
+ * 
+ * 
+ * 
+ */
+
+  useEffect(() => setSteps(portfolioData?.sections || []), [portfolioData]);
 
   const handleStepClick = (stepId: number) => {
     console.log("Clicked step:", stepId);
     // Handle step navigation
   };
 
-  const handleContinue = () => {
-    console.log("Continue clicked");
-    // Handle continue action
-  };
+  //   const handleContinue = () => {
+  //     console.log("Continue clicked");
+  //     // Handle continue action
+  //   };
 
-  const handleSkip = () => {
-    console.log("Skip clicked");
-    // Handle skip action
-  };
+  //   const handleSkip = () => {
+  //     console.log("Skip clicked");
+  //     // Handle skip action
+  //   };
 
   const contentVariants = {
     hidden: { opacity: 0, y: 20 },
@@ -90,8 +115,8 @@ const Onboarding: React.FC = () => {
         steps={steps}
         currentStep={currentStep}
         onStepClick={handleStepClick}
-        onContinue={handleContinue}
-        onSkip={handleSkip}
+        // onContinue={handleContinue}
+        // onSkip={handleSkip}
       />
 
       <motion.div

@@ -29,10 +29,10 @@ const OnboardingStepper: React.FC<OnboardingStepperProps> = ({
   currentStep,
   onStepClick,
 }) => {
-  const completedSteps = steps.filter(
+  const completedSteps = steps?.filter(
     (step) => step.status === "completed"
   ).length;
-  const totalSteps = steps.length;
+  const totalSteps = steps?.length;
   const progressPercentage = (completedSteps / totalSteps) * 100;
 
   const getStatusIcon = (status: StepStatus, stepNumber: number) => {
@@ -130,7 +130,7 @@ const OnboardingStepper: React.FC<OnboardingStepperProps> = ({
           animate="visible"
         >
           <AnimatePresence>
-            {steps.map((step, index) => (
+            {steps?.map((step, index) => (
               <motion.div
                 key={step.id}
                 className={styles.stepItem}
@@ -139,10 +139,10 @@ const OnboardingStepper: React.FC<OnboardingStepperProps> = ({
                 onClick={() => onStepClick?.(step.id)}
                 style={{ cursor: onStepClick ? "pointer" : "default" }}
               >
-                {index < steps.length - 1 && (
+                {index < steps?.length - 1 && (
                   <div
                     className={`${styles.stepConnector} ${
-                      index === steps.length - 1 ? styles.lastStep : ""
+                      index === steps?.length - 1 ? styles.lastStep : ""
                     }`}
                   />
                 )}
