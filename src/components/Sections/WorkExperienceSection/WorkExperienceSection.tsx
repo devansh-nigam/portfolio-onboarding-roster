@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { setPortfolioDataFromAPI } from "@/lib/slices/portfolio/portfolioSlice";
@@ -289,7 +289,7 @@ const WorkExperienceSection: React.FC<WorkExperienceSectionProps> = ({
   };
 
   // Save to Redux
-  const handleSave = () => {
+  const handleSave = useCallback(() => {
     // Validate all experiences
     const allErrors: Record<string, string> = {};
 
@@ -300,7 +300,7 @@ const WorkExperienceSection: React.FC<WorkExperienceSectionProps> = ({
 
     setErrors(allErrors);
 
-    if (Object.keys(allErrors).length === 0 && workExperiences.length > 0) {
+    if (Object.keys(allErrors).length === 0) {
       const updatedPortfolioData = {
         ...portfolioData,
         sections: portfolioData.sections.map((section: any) =>
@@ -308,7 +308,7 @@ const WorkExperienceSection: React.FC<WorkExperienceSectionProps> = ({
             ? {
                 ...section,
                 data: { workExperience: workExperiences },
-                status: "completed",
+                status: workExperiences.length > 0 ? "completed" : "pending", // Allow pending with 0 experiences
               }
             : section
         ),
@@ -318,7 +318,7 @@ const WorkExperienceSection: React.FC<WorkExperienceSectionProps> = ({
       setIsDirty(false);
       console.log("Work experience data saved successfully!");
     }
-  };
+  });
 
   // Auto-save on unmount
   useEffect(() => {
@@ -326,12 +326,12 @@ const WorkExperienceSection: React.FC<WorkExperienceSectionProps> = ({
       if (
         isDirty &&
         Object.keys(errors).length === 0 &&
-        workExperiences.length > 0
+        workExperiences.length >= 0
       ) {
         handleSave();
       }
     };
-  }, [isDirty, errors, workExperiences]);
+  }, [isDirty, errors, workExperiences, handleSave]);
 
   const containerVariants = {
     hidden: { opacity: 0, y: 20 },
@@ -663,6 +663,15 @@ const WorkExperienceSection: React.FC<WorkExperienceSectionProps> = ({
               </AnimatePresence>
             </motion.div>
           ))}
+          {workExperiences.length === 0 && (
+            <div className={styles.emptyState}>
+              <h3>No work experience added yet</h3>
+              <p>
+                Work experience is optional. You can add it later or continue
+                without it.
+              </p>
+            </div>
+          )}
         </AnimatePresence>
 
         {/* Add New Experience Button */}
