@@ -1,4 +1,5 @@
 "use client";
+/* eslint-disable @typescript-eslint/no-explicit-any */
 
 import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
@@ -234,7 +235,7 @@ const SkillsSection: React.FC<SkillsSectionProps> = ({ sectionData }) => {
   );
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [isDirty, setIsDirty] = useState(false);
-  const [expandedCategory, setExpandedCategory] = useState<string | null>(null);
+  //const [expandedCategory, setExpandedCategory] = useState<string | null>(null);
 
   // Flatten suggestion arrays for TagField
   const allSkillSuggestions = Object.values(SKILL_SUGGESTIONS).flat();
@@ -339,7 +340,7 @@ const SkillsSection: React.FC<SkillsSectionProps> = ({ sectionData }) => {
         handleSave();
       }
     };
-  }, [isDirty, errors, skills, softwares]);
+  }, [isDirty, errors, skills, softwares, handleSave]);
 
   const containerVariants = {
     hidden: { opacity: 0, y: 20 },
@@ -543,7 +544,7 @@ const SkillsSection: React.FC<SkillsSectionProps> = ({ sectionData }) => {
               <div className={styles.completionBadge}>
                 <span className={styles.badgeIcon}>✨</span>
                 <span>
-                  Great! You're building a comprehensive skill profile
+                  Great! You are building a comprehensive skill profile
                 </span>
               </div>
             )}

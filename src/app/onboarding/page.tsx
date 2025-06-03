@@ -9,8 +9,11 @@ import {
   setPortfolioDataFromAPI,
   setStepperStep,
 } from "@/lib/slices/portfolio/portfolioSlice";
-import ProfileSection from "@/components/Sections/ProfileSection/ProfileSection";
-import ProfilePhotoSection from "@/components/Sections/ProfilePhotoSection/ProfilePhotoSection";
+import ProfileSection from "@components/Sections/ProfileSection/ProfileSection";
+import ProfilePhotoSection from "@components/Sections/ProfilePhotoSection/ProfilePhotoSection";
+import WorkExperienceSection from "@components/Sections/WorkExperienceSection/WorkExperienceSection";
+import SkillsSection from "@components/Sections/SkillsSection/SkillsSection";
+import SocialLinksSection from "@components/Sections/SocialLinksSection/SocialLinksSection";
 
 type StepStatus = "pending" | "current" | "completed" | "error";
 
@@ -44,13 +47,17 @@ const Onboarding: React.FC = () => {
   const renderCurrentSection = () => {
     const currentSection = steps.find((step) => step.status === "current");
 
-    //return <ProfileSection sectionData={currentSection} />;
-
     switch (currentSection?.id) {
       case 1: // Profile Photo section
         return <ProfilePhotoSection sectionData={currentSection} />;
-      case 2: // Profile section ID
+      case 2: // Profile section
         return <ProfileSection sectionData={currentSection} />;
+      case 3: // Work Experience section
+        return <WorkExperienceSection sectionData={currentSection} />;
+      case 4:
+        return <SkillsSection sectionData={currentSection} />;
+      case 5:
+        return <SocialLinksSection sectionData={currentSection} />;
       default:
         return (
           <div className={styles.contentBody}>
@@ -227,6 +234,7 @@ const Onboarding: React.FC = () => {
     },
   };
 
+  const isFirstStep = currentStepIndex === 0;
   const isLastStep = currentStepIndex === steps.length - 1;
 
   return (
@@ -245,7 +253,13 @@ const Onboarding: React.FC = () => {
         animate="visible"
       >
         <div className={styles.actionFooter}>
-          <button className={styles.backButton} onClick={handleBack}>
+          <button
+            className={`${styles.backButton} ${
+              isFirstStep ? styles.hidden : ""
+            }`}
+            onClick={handleBack}
+            style={{ visibility: isFirstStep ? "hidden" : "visible" }}
+          >
             ← Back
           </button>
           <button className={styles.nextButton} onClick={handleContinue}>
