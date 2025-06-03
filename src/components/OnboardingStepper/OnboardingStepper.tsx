@@ -11,10 +11,11 @@ interface Step {
   title: string;
   description: string;
   status: StepStatus;
-  estimatedTime?: string;
-  errorMessage?: string;
-  originalStatus?: StepStatus;
-  data?: object;
+  estimatedTime: string; // Make required
+  errorMessage?: string; // Keep optional
+  originalStatus?: StepStatus; // Keep optional
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  data: any; // Make required and use any for flexibility
 }
 
 interface OnboardingStepperProps {

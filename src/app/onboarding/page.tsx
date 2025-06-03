@@ -1,11 +1,11 @@
 "use client";
-
 import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import OnboardingStepper from "@/components/OnboardingStepper/OnboardingStepper";
 import styles from "./Onboarding.module.css";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import {
+  PortfolioState,
   setPortfolioDataFromAPI,
   setStepperStep,
 } from "@/lib/slices/portfolio/portfolioSlice";
@@ -22,26 +22,25 @@ interface Step {
   title: string;
   description: string;
   status: StepStatus;
-  estimatedTime?: string;
-  errorMessage?: string;
-  originalStatus?: StepStatus;
-  data?: object;
+  estimatedTime: string; // Make required
+  errorMessage?: string; // Keep optional
+  originalStatus?: StepStatus; // Keep optional
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  data: any; // Make required and use any for flexibility
 }
 
 const Onboarding: React.FC = () => {
   const portfolioData = useAppSelector(
     (state) => state.portfolio?.portfolioData
-  );
+  ) as PortfolioState | undefined;
   const currentStepIndex = useAppSelector(
     (state) => state.portfolio?.stepper?.currentStep || 0
   );
 
   const dispatch = useAppDispatch();
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [currentStep, setCurrentStep] = useState(1);
+  //const [currentStep, setCurrentStep] = useState(1);
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [steps, setSteps] = useState<Step[]>([]);
 
   const renderCurrentSection = () => {

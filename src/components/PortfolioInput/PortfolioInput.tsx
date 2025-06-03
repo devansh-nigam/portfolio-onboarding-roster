@@ -58,13 +58,6 @@ interface Portfolio {
     name: string;
     level: string;
   }>;
-  metadata: {
-    profileCompleteness: number;
-    isVerified: boolean;
-    isAvailableForWork: boolean;
-    lastUpdated: string;
-    createdAt: string;
-  };
 }
 
 interface ApiResponse {

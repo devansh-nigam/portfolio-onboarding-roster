@@ -1,7 +1,7 @@
 "use client";
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { motion } from "framer-motion";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { setPortfolioDataFromAPI } from "@/lib/slices/portfolio/portfolioSlice";
@@ -241,21 +241,6 @@ const SkillsSection: React.FC<SkillsSectionProps> = ({ sectionData }) => {
   const allSkillSuggestions = Object.values(SKILL_SUGGESTIONS).flat();
   const allSoftwareSuggestions = Object.values(SOFTWARE_SUGGESTIONS).flat();
 
-  // Validation
-  const validateData = (): Record<string, string> => {
-    const newErrors: Record<string, string> = {};
-
-    if (skills.length === 0) {
-      newErrors.skills = "Please add at least one skill";
-    }
-
-    if (softwares.length === 0) {
-      newErrors.softwares = "Please add at least one software";
-    }
-
-    return newErrors;
-  };
-
   // Handle skills change
   const handleSkillsChange = (newSkills: string[]) => {
     setSkills(newSkills);
@@ -305,7 +290,22 @@ const SkillsSection: React.FC<SkillsSectionProps> = ({ sectionData }) => {
   };
 
   // Save to Redux
-  const handleSave = () => {
+  const handleSave = useCallback(() => {
+    // Validation
+    const validateData = (): Record<string, string> => {
+      const newErrors: Record<string, string> = {};
+
+      if (skills.length === 0) {
+        newErrors.skills = "Please add at least one skill";
+      }
+
+      if (softwares.length === 0) {
+        newErrors.softwares = "Please add at least one software";
+      }
+
+      return newErrors;
+    };
+
     const validationErrors = validateData();
     setErrors(validationErrors);
 
@@ -327,7 +327,7 @@ const SkillsSection: React.FC<SkillsSectionProps> = ({ sectionData }) => {
       setIsDirty(false);
       console.log("Skills and softwares saved successfully!");
     }
-  };
+  }, [portfolioData, sectionData.id, skills, softwares, dispatch]);
 
   // Auto-save on unmount
   useEffect(() => {

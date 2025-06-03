@@ -1,6 +1,7 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 "use client";
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { setPortfolioDataFromAPI } from "@/lib/slices/portfolio/portfolioSlice";
@@ -221,21 +222,6 @@ const SocialLinksSection: React.FC<SocialLinksSectionProps> = ({
     }
   };
 
-  // Validate URL format
-  const validateUrl = (
-    url: string,
-    platform: keyof typeof SOCIAL_PLATFORMS
-  ): string => {
-    if (!url.trim()) return "";
-
-    const platformConfig = SOCIAL_PLATFORMS[platform];
-    if (!platformConfig.urlPattern.test(url)) {
-      return `Please enter a valid ${platformConfig.name} URL`;
-    }
-
-    return "";
-  };
-
   // Handle platform addition
   const addPlatform = (platformKey: string) => {
     // Check if platform already exists
@@ -334,7 +320,22 @@ const SocialLinksSection: React.FC<SocialLinksSectionProps> = ({
   //   }
   // };
 
-  const handleSave = () => {
+  const handleSave = useCallback(() => {
+    // Validate URL format
+    const validateUrl = (
+      url: string,
+      platform: keyof typeof SOCIAL_PLATFORMS
+    ): string => {
+      if (!url.trim()) return "";
+
+      const platformConfig = SOCIAL_PLATFORMS[platform];
+      if (!platformConfig.urlPattern.test(url)) {
+        return `Please enter a valid ${platformConfig.name} URL`;
+      }
+
+      return "";
+    };
+
     console.log("🔍 DEBUGGING SAVE:");
     console.log("socialLinks before save:", socialLinks);
 
@@ -382,7 +383,7 @@ const SocialLinksSection: React.FC<SocialLinksSectionProps> = ({
     } else {
       console.log("❌ Validation errors found, not saving");
     }
-  };
+  }, [socialLinks, portfolioData, sectionData.id, dispatch]);
 
   // Auto-save on unmount
   useEffect(() => {

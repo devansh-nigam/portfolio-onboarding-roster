@@ -74,39 +74,6 @@ const WorkExperienceSection: React.FC<WorkExperienceSectionProps> = ({
   const generateId = () =>
     `exp_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
 
-  // Validation
-  const validateExperience = (
-    experience: WorkExperience,
-    index: number
-  ): Record<string, string> => {
-    const experienceErrors: Record<string, string> = {};
-    const prefix = `experience_${index}`;
-
-    if (!experience.companyName?.trim()) {
-      experienceErrors[`${prefix}_companyName`] =
-        "Company/Client name is required";
-    }
-
-    if (!experience.jobTitle?.trim()) {
-      experienceErrors[`${prefix}_jobTitle`] = "Job title is required";
-    }
-
-    if (!experience.employmentType?.trim()) {
-      experienceErrors[`${prefix}_employmentType`] =
-        "Employment type is required";
-    }
-
-    if (!experience.startDate?.trim()) {
-      experienceErrors[`${prefix}_startDate`] = "Start date is required";
-    }
-
-    if (!experience.summary?.trim()) {
-      experienceErrors[`${prefix}_summary`] = "Role summary is required";
-    }
-
-    return experienceErrors;
-  };
-
   // Handle field changes
   const handleExperienceChange = (
     index: number,
@@ -290,6 +257,39 @@ const WorkExperienceSection: React.FC<WorkExperienceSectionProps> = ({
 
   // Save to Redux
   const handleSave = useCallback(() => {
+    // Validation
+    const validateExperience = (
+      experience: WorkExperience,
+      index: number
+    ): Record<string, string> => {
+      const experienceErrors: Record<string, string> = {};
+      const prefix = `experience_${index}`;
+
+      if (!experience.companyName?.trim()) {
+        experienceErrors[`${prefix}_companyName`] =
+          "Company/Client name is required";
+      }
+
+      if (!experience.jobTitle?.trim()) {
+        experienceErrors[`${prefix}_jobTitle`] = "Job title is required";
+      }
+
+      if (!experience.employmentType?.trim()) {
+        experienceErrors[`${prefix}_employmentType`] =
+          "Employment type is required";
+      }
+
+      if (!experience.startDate?.trim()) {
+        experienceErrors[`${prefix}_startDate`] = "Start date is required";
+      }
+
+      if (!experience.summary?.trim()) {
+        experienceErrors[`${prefix}_summary`] = "Role summary is required";
+      }
+
+      return experienceErrors;
+    };
+
     // Validate all experiences
     const allErrors: Record<string, string> = {};
 
@@ -318,20 +318,16 @@ const WorkExperienceSection: React.FC<WorkExperienceSectionProps> = ({
       setIsDirty(false);
       console.log("Work experience data saved successfully!");
     }
-  });
+  }, [workExperiences, portfolioData, sectionData.id, dispatch]);
 
   // Auto-save on unmount
   useEffect(() => {
     return () => {
-      if (
-        isDirty &&
-        Object.keys(errors).length === 0 &&
-        workExperiences.length >= 0
-      ) {
+      if (isDirty && Object.keys(errors).length === 0) {
         handleSave();
       }
     };
-  }, [isDirty, errors, workExperiences, handleSave]);
+  }, [isDirty, errors, handleSave]);
 
   const containerVariants = {
     hidden: { opacity: 0, y: 20 },

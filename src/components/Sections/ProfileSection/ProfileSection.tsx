@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { motion } from "framer-motion";
 import { useAppDispatch, useAppSelector } from "@lib/hooks";
 import { setPortfolioDataFromAPI } from "@lib/slices/portfolio/portfolioSlice";
@@ -228,7 +228,7 @@ const ProfileSection: React.FC<ProfileSectionProps> = ({ sectionData }) => {
   };
 
   // Save data to Redux
-  const handleSave = () => {
+  const handleSave = useCallback(() => {
     // Validate all fields
     const newErrors: Record<string, string> = {};
 
@@ -265,7 +265,14 @@ const ProfileSection: React.FC<ProfileSectionProps> = ({ sectionData }) => {
       // You could also trigger navigation to next step here
       console.log("Profile data saved successfully!");
     }
-  };
+  }, [
+    formData,
+    portfolioData,
+    sectionData.id,
+    dispatch,
+    setErrors,
+    setIsDirty,
+  ]);
 
   // Auto-save on unmount if dirty
   useEffect(() => {
@@ -274,7 +281,7 @@ const ProfileSection: React.FC<ProfileSectionProps> = ({ sectionData }) => {
         handleSave();
       }
     };
-  }, [isDirty, errors]);
+  }, [isDirty, errors, handleSave]);
 
   const containerVariants = {
     hidden: { opacity: 0, y: 20 },
