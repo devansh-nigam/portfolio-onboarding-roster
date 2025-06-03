@@ -68,13 +68,6 @@ html {
   }
 }
 
-/* @media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-} */
-
 html,
 body {
   max-width: 100vw;
@@ -150,8 +143,6 @@ a {
   object-fit: cover;
 }
 
-/* Replace your existing .main-grid and .content styles with these: */
-
 .main-grid {
   display: grid;
   grid-template-columns: 1fr minmax(320px, 800px) 1fr;
@@ -212,7 +203,6 @@ a {
   }
 }
 
-/* Optional: Add floating particles for extra interactivity */
 .main-grid::before {
   content: "";
   position: absolute;

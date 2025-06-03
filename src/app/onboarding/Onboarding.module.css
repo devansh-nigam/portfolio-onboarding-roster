@@ -67,6 +67,11 @@
   transition: all 0.3s ease;
 }
 
+.backButton.hidden {
+  visibility: hidden;
+  pointer-events: none;
+}
+
 .backButton:hover {
   background: rgba(255, 255, 255, 0.05);
   color: rgba(255, 255, 255, 0.9);

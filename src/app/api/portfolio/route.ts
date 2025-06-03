@@ -154,13 +154,6 @@ export const mockUsers = [
           },
         },
       ],
-      metadata: {
-        profileCompleteness: 95,
-        isVerified: true,
-        isAvailableForWork: true,
-        lastUpdated: "2024-05-15T10:30:00Z",
-        createdAt: "2021-01-15T08:00:00Z",
-      },
     },
   },
 ];
