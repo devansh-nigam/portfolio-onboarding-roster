@@ -1,4 +1,137 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Portfolio Onboarding Roster
+
+A Next.js application for creating and managing professional portfolios with a streamlined onboarding process.
+
+## Project Overview
+
+Portfolio Onboarding Roster is a web application that allows users to create personalized professional portfolios. The application guides users through a step-by-step onboarding process to collect their professional information, work experience, skills, and social links, ultimately generating a unique portfolio website.
+
+## Tech Stack
+
+- **Frontend**: Next.js, TypeScript, React
+- **State Management**: Redux Toolkit
+- **Styling**: CSS Modules
+- **Animations**: Framer Motion
+- **Form Handling**: Custom form components
+
+## Product Overview
+
+![Screenshot](./product-screenshots/LandingScreen.png)
+
+## Features
+
+- Multi-step onboarding process
+- Portfolio URL generation with username validation
+- Form validation and error handling
+- Animated transitions and UI elements
+- Portfolio preview and completion tracking
+- Responsive design
+
+## User Flow
+
+1. **Homepage**
+
+- User lands on the homepage with an animated welcome message
+- User enters their existing portfolio URL or starts from scratch
+- System validates the URL format
+
+2. **Onboarding Process**
+
+- **Step 1: Profile Photo**
+- User uploads a professional profile photo
+- Photo is stored and displayed in the portfolio
+
+- **Step 2: Personal Information**
+- User enters basic information (name, title, summary)
+- Contact details (email, phone)
+- Location information (city, country, timezone)
+- Languages spoken with proficiency levels
+
+- **Step 3: Work Experience**
+- User adds professional experience entries
+- Each entry includes company, role, duration, and description
+- Option to add portfolio items for each experience
+
+- **Step 4: Skills & Tools**
+- User adds professional skills as tags
+- User adds software and tools they're proficient with
+- Skills are categorized and displayed in the portfolio
+
+- **Step 5: Social Links**
+- User adds links to social media profiles
+- Platforms include LinkedIn, YouTube, Instagram, Twitter, etc.
+
+3. **Dashboard**
+
+- User sees a summary of their portfolio completion
+- Stats about work experiences, skills, and social links
+- Option to create a unique username for their portfolio URL
+- System checks username availability and offers suggestions
+- User generates their portfolio with a unique URL
+- Options to view, share, or edit the portfolio
+
+4. **Portfolio View**
+
+- The generated portfolio is accessible at `https://app.joinroster.co/{username}`
+- Displays all the information collected during onboarding
+- Professional layout optimized for showcasing the user's work
+
+## Project Structure
+
+```
+portfolio-onboarding-roster/
+├── public/ # Static assets
+├── src/
+│ ├── app/ # Next.js app directory
+│ │ ├── api/ # API routes
+│ │ ├── dashboard/ # Dashboard page
+│ │ ├── onboarding/ # Onboarding page
+│ │ └── page.tsx # Homepage
+│ ├── components/ # React components
+│ │ ├── AnimatedContent/ # Animation components
+│ │ ├── AnimatedText/ # Text animation components
+│ │ ├── FormFields/ # Form input components
+│ │ ├── OnboardingStepper/ # Stepper component
+│ │ ├── PortfolioInput/ # Portfolio URL input
+│ │ └── Sections/ # Onboarding section components
+│ ├── lib/ # Utilities and state management
+│ │ ├── slices/ # Redux slices
+│ │ ├── hooks.ts # Custom hooks
+│ │ └── store.ts # Redux store
+│ ├── mockData/ # Mock data for development
+│ └── types/ # TypeScript type definitions
+└── ... # Config files
+```
+
+## Data Flow
+
+1. User inputs are collected through form components
+2. Form data is validated and stored in Redux
+3. Each onboarding section updates the portfolio data in the Redux store
+4. On completion, the data is sent to the backend to generate a portfolio
+5. The generated portfolio URL is displayed to the user
+
+## Form Components
+
+The application uses custom form components for consistent UI and validation:
+
+- `TextField`: Single-line text input
+- `TextAreaField`: Multi-line text input
+- `SelectField`: Dropdown selection with search capability
+- `TagField`: Input for multiple tags with suggestions
+
+## State Management
+
+Redux is used to manage the application state:
+
+- `portfolioSlice`: Manages portfolio data and onboarding progress
+- Actions include updating portfolio data and navigating between steps
+
+## API Endpoints
+
+- `/api/check-username`: Validates username availability
+- `/api/generate-portfolio`: Creates a portfolio with the provided data
+- `/api/portfolio`: Fetches portfolio data from an existing URL
 
 ## Getting Started
 
@@ -8,29 +141,14 @@ First, run the development server:
 npm run dev
 # or
 yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
 ## Learn More
 
-To learn more about Next.js, take a look at the following resources:
+To learn more about the technologies used:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- [Next.js Documentation](https://nextjs.org/docs)
+- [Redux Toolkit](https://redux-toolkit.js.org/)
+- [Framer Motion](https://www.framer.com/motion/)
