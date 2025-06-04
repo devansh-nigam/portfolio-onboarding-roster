@@ -22,37 +22,21 @@ Portfolio Onboarding Roster is a web application that allows users to create per
 
 ## Product Overview
 
-|                     Landing Screen                     |
-| :----------------------------------------------------: |
-| ![Screenshot](./product-screenshots/LandingScreen.png) |
+|                     Landing Screen                     |                   Upload your Profile Photo                   |
+| :----------------------------------------------------: | :-----------------------------------------------------------: |
+| ![Screenshot](./product-screenshots/LandingScreen.png) | ![Screenshot](./product-screenshots/Section1ProfilePhoto.png) |
 
-|                   Upload your Profile Photo                   |
-| :-----------------------------------------------------------: |
-| ![Screenshot](./product-screenshots/Section1ProfilePhoto.png) |
+|                        Complete Your Profile                         |                         Work Experience                         |
+| :------------------------------------------------------------------: | :-------------------------------------------------------------: |
+| ![Screenshot](./product-screenshots/Section2CompleteYourProfile.png) | ![Screenshot](./product-screenshots/Section3WorkExperience.png) |
 
-|                        Complete Your Profile                         |
-| :------------------------------------------------------------------: |
-| ![Screenshot](./product-screenshots/Section2CompleteYourProfile.png) |
+|                     Skills & Software                     |                 Social Media Handles                 |
+| :-------------------------------------------------------: | :--------------------------------------------------: |
+| ![Screenshot](./product-screenshots/SkillsTechnology.png) | ![Screenshot](./product-screenshots/SocialLinks.png) |
 
-|                         Work Experience                         |
-| :-------------------------------------------------------------: |
-| ![Screenshot](./product-screenshots/Section3WorkExperience.png) |
-
-|                     Skills & Software                     |
-| :-------------------------------------------------------: |
-| ![Screenshot](./product-screenshots/SkillsTechnology.png) |
-
-|                 Social Media Handles                 |
-| :--------------------------------------------------: |
-| ![Screenshot](./product-screenshots/SocialLinks.png) |
-
-|                     Dashboard                      |
-| :------------------------------------------------: |
-| ![Screenshot](./product-screenshots/Dashboard.png) |
-
-|                     Portfolio Preview                     |
-| :-------------------------------------------------------: |
-| ![Screenshot](./product-screenshots/PortfolioPreview.png) |
+|                     Dashboard                      |                     Portfolio Preview                     |
+| :------------------------------------------------: | :-------------------------------------------------------: |
+| ![Screenshot](./product-screenshots/Dashboard.png) | ![Screenshot](./product-screenshots/PortfolioPreview.png) |
 
 ## Features
 
