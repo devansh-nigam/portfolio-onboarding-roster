@@ -1,0 +1,721 @@
+openapi: 3.0.3
+info:
+  title: Portfolio Management API
+  description: |
+    API endpoints for portfolio creation, username validation, and portfolio generation.
+    
+    This API allows users to:
+    - Fetch portfolio data from external URLs
+    - Validate username availability for portfolio URLs
+    - Generate live portfolios with unique usernames
+    - Manage existing portfolios (CRUD operations)
+  version: 1.0.0
+  contact:
+    name: Portfolio API Support
+    email: support@joinroster.co
+  license:
+    name: MIT
+    url: https://opensource.org/licenses/MIT
+
+servers:
+  - url: https://app.joinroster.co/api
+    description: Production server
+  - url: http://localhost:3000/api
+    description: Development server
+
+paths:
+  /portfolio:
+    post:
+      tags:
+        - Portfolio Data
+      summary: Fetch portfolio data from URL
+      description: Fetches and processes portfolio data from a given external URL
+      operationId: fetchPortfolioData
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - url
+              properties:
+                url:
+                  type: string
+                  format: uri
+                  description: URL of the portfolio to fetch data from
+                  example: "https://sonuchoudhary.my.canva.site/portfolio"
+      responses:
+        '200':
+          description: Portfolio data fetched successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PortfolioDataResponse'
+        '400':
+          description: Invalid URL provided
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /check-username:
+    post:
+      tags:
+        - Username Validation
+      summary: Check username availability
+      description: Validates username format and checks availability for portfolio URL generation
+      operationId: checkUsernameAvailability
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - username
+              properties:
+                username:
+                  type: string
+                  minLength: 3
+                  maxLength: 30
+                  pattern: '^[a-z0-9-]+$'
+                  description: Desired username (alphanumeric and hyphens only)
+                  example: "sonuchoudhary"
+      responses:
+        '200':
+          description: Username availability checked
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - $ref: '#/components/schemas/UsernameAvailableResponse'
+                  - $ref: '#/components/schemas/UsernameTakenResponse'
+        '400':
+          description: Invalid username format
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UsernameValidationErrorResponse'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+    
+    get:
+      tags:
+        - Username Validation
+      summary: Method not allowed
+      description: GET method is not supported for username checking
+      operationId: checkUsernameGet
+      responses:
+        '405':
+          description: Method not allowed
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Use POST method to check username availability"
+
+  /generate-portfolio:
+    post:
+      tags:
+        - Portfolio Management
+      summary: Generate new portfolio
+      description: Creates a live portfolio with unique URL from portfolio data
+      operationId: generatePortfolio
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GeneratePortfolioRequest'
+      responses:
+        '200':
+          description: Portfolio generated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GeneratePortfolioResponse'
+        '400':
+          description: Invalid request data or incomplete profile
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '409':
+          description: Username already taken
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+    get:
+      tags:
+        - Portfolio Management
+      summary: Get existing portfolio
+      description: Retrieves an existing generated portfolio by username
+      operationId: getPortfolio
+      parameters:
+        - name: username
+          in: query
+          required: true
+          schema:
+            type: string
+            minLength: 3
+            maxLength: 30
+          description: Username of the portfolio to retrieve
+          example: "sonuchoudhary"
+      responses:
+        '200':
+          description: Portfolio found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetPortfolioResponse'
+        '400':
+          description: Username parameter missing
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Portfolio not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+    put:
+      tags:
+        - Portfolio Management
+      summary: Update existing portfolio
+      description: Updates an existing portfolio with new data
+      operationId: updatePortfolio
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdatePortfolioRequest'
+      responses:
+        '200':
+          description: Portfolio updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UpdatePortfolioResponse'
+        '400':
+          description: Invalid request data
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Portfolio not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+    delete:
+      tags:
+        - Portfolio Management
+      summary: Delete portfolio
+      description: Permanently deletes an existing portfolio
+      operationId: deletePortfolio
+      parameters:
+        - name: username
+          in: query
+          required: true
+          schema:
+            type: string
+            minLength: 3
+            maxLength: 30
+          description: Username of the portfolio to delete
+          example: "sonuchoudhary"
+      responses:
+        '200':
+          description: Portfolio deleted successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: "Portfolio deleted successfully"
+        '400':
+          description: Username parameter missing
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Portfolio not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+components:
+  schemas:
+    PortfolioDataResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: true
+        data:
+          $ref: '#/components/schemas/PortfolioData'
+        total:
+          type: integer
+          example: 1
+        message:
+          type: string
+          example: "Portfolio data fetched successfully"
+
+    PortfolioData:
+      type: object
+      properties:
+        profile:
+          $ref: '#/components/schemas/Profile'
+        workExperience:
+          type: array
+          items:
+            $ref: '#/components/schemas/WorkExperience'
+        skills:
+          type: array
+          items:
+            type: string
+        softwares:
+          type: array
+          items:
+            type: string
+        languages:
+          type: array
+          items:
+            $ref: '#/components/schemas/Language'
+        metadata:
+          $ref: '#/components/schemas/Metadata'
+
+    Profile:
+      type: object
+      properties:
+        firstName:
+          type: string
+          example: "Sonu"
+        lastName:
+          type: string
+          example: "Choudhary"
+        title:
+          type: string
+          example: "Video Editor & Content Creator"
+        profileImage:
+          $ref: '#/components/schemas/ProfileImage'
+        summary:
+          type: string
+          example: "I specialize in YouTube video editing..."
+        website:
+          type: string
+          format: uri
+          example: "https://sonuchoudhary.my.canva.site/portfolio"
+        location:
+          $ref: '#/components/schemas/Location'
+        contact:
+          $ref: '#/components/schemas/Contact'
+
+    ProfileImage:
+      type: object
+      properties:
+        url:
+          type: string
+          format: uri
+          example: "https://example.com/image.png"
+        alt:
+          type: string
+          example: "Sonu Choudhary profile picture"
+
+    Location:
+      type: object
+      properties:
+        city:
+          type: string
+          example: "Mumbai"
+        country:
+          type: string
+          example: "India"
+        timezone:
+          type: string
+          example: "Asia/Kolkata"
+
+    Contact:
+      type: object
+      properties:
+        email:
+          type: string
+          format: email
+          example: "jabsvideo19@gmail.com"
+        phone:
+          type: string
+          example: "+91-9876543210"
+
+    WorkExperience:
+      type: object
+      properties:
+        id:
+          type: string
+          example: "exp_1a2b3c4d"
+        type:
+          type: string
+          example: "client"
+        companyName:
+          type: string
+          example: "TechReview Channel"
+        jobTitle:
+          type: string
+          example: "Lead Video Editor"
+        startDate:
+          type: string
+          format: date
+          example: "2023-01-15"
+        endDate:
+          type: string
+          format: date
+          nullable: true
+          example: null
+        durationOfEmployment:
+          type: string
+          example: "1 year 5 months"
+        employmentType:
+          type: string
+          enum: [full-time, part-time, contract, freelance, internship, temporary]
+          example: "contract"
+        isCurrentRole:
+          type: boolean
+          example: true
+        summary:
+          type: string
+          example: "Lead editor for a tech review YouTube channel with 500K+ subscribers."
+        portfolioItems:
+          type: array
+          items:
+            $ref: '#/components/schemas/PortfolioItem'
+
+    PortfolioItem:
+      type: object
+      properties:
+        id:
+          type: string
+          example: "vid_1x2y3z"
+        title:
+          type: string
+          example: "iPhone 15 Pro Max Review"
+        thumbnail:
+          type: string
+          format: uri
+          example: "https://example.com/thumbnails/iphone-review.jpg"
+        videoUrl:
+          type: string
+          format: uri
+          example: "https://youtube.com/watch?v=abc123"
+        duration:
+          type: string
+          example: "12:34"
+        views:
+          type: string
+          example: "2.1M"
+
+    Language:
+      type: object
+      properties:
+        name:
+          type: string
+          example: "English"
+        level:
+          type: string
+          enum: [Native, Fluent, Advanced, Intermediate, Basic]
+          example: "Fluent"
+
+    Metadata:
+      type: object
+      properties:
+        profileCompleteness:
+          type: integer
+          minimum: 0
+          maximum: 100
+          example: 95
+        isVerified:
+          type: boolean
+          example: true
+        isAvailableForWork:
+          type: boolean
+          example: true
+        lastUpdated:
+          type: string
+          format: date-time
+          example: "2024-05-15T10:30:00Z"
+        createdAt:
+          type: string
+          format: date-time
+          example: "2021-01-15T08:00:00Z"
+
+    UsernameAvailableResponse:
+      type: object
+      properties:
+        available:
+          type: boolean
+          example: true
+        message:
+          type: string
+          example: "Username 'sonuchoudhary' is available"
+
+    UsernameTakenResponse:
+      type: object
+      properties:
+        available:
+          type: boolean
+          example: false
+        message:
+          type: string
+          example: "Username 'sonuchoudhary' is already taken"
+        suggestions:
+          type: array
+          items:
+            type: string
+          example: ["sonuchoudhary1", "sonuchoudhary2", "sonuchoudhary24", "sonuchoudhary_", "sonuchoudhary_portfolio", "sonuchoudharydev"]
+
+    UsernameValidationErrorResponse:
+      type: object
+      properties:
+        available:
+          type: boolean
+          example: false
+        message:
+          type: string
+          example: "Username must be at least 3 characters long"
+        suggestions:
+          type: array
+          items:
+            type: string
+          example: ["validusername1", "validusername2"]
+
+    GeneratePortfolioRequest:
+      type: object
+      required:
+        - username
+        - portfolioData
+      properties:
+        username:
+          type: string
+          minLength: 3
+          maxLength: 30
+          pattern: '^[a-z0-9-]+$'
+          example: "sonuchoudhary"
+        portfolioData:
+          type: object
+          properties:
+            sections:
+              type: array
+              items:
+                $ref: '#/components/schemas/PortfolioSection'
+
+    PortfolioSection:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        title:
+          type: string
+          example: "Upload Profile Photo"
+        status:
+          type: string
+          enum: [pending, current, completed, error]
+          example: "completed"
+        data:
+          type: object
+          description: Section-specific data structure
+
+    GeneratePortfolioResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: true
+        message:
+          type: string
+          example: "Portfolio generated successfully"
+        data:
+          type: object
+          properties:
+            username:
+              type: string
+              example: "sonuchoudhary"
+            url:
+              type: string
+              format: uri
+              example: "https://app.joinroster.co/sonuchoudhary"
+            createdAt:
+              type: string
+              format: date-time
+              example: "2024-06-04T10:30:00Z"
+            completionPercentage:
+              type: integer
+              minimum: 0
+              maximum: 100
+              example: 95
+
+    GetPortfolioResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: true
+        data:
+          type: object
+          properties:
+            username:
+              type: string
+              example: "sonuchoudhary"
+            portfolioData:
+              $ref: '#/components/schemas/PortfolioData'
+            url:
+              type: string
+              format: uri
+              example: "https://app.joinroster.co/sonuchoudhary"
+            createdAt:
+              type: string
+              format: date-time
+              example: "2024-06-04T10:30:00Z"
+            updatedAt:
+              type: string
+              format: date-time
+              example: "2024-06-04T10:30:00Z"
+            isPublished:
+              type: boolean
+              example: true
+            views:
+              type: integer
+              example: 42
+            metadata:
+              type: object
+              properties:
+                totalSections:
+                  type: integer
+                  example: 5
+                completedSections:
+                  type: integer
+                  example: 4
+                completionPercentage:
+                  type: integer
+                  example: 80
+                lastModified:
+                  type: string
+                  format: date-time
+                  example: "2024-06-04T10:30:00Z"
+
+    UpdatePortfolioRequest:
+      type: object
+      required:
+        - username
+        - portfolioData
+      properties:
+        username:
+          type: string
+          example: "sonuchoudhary"
+        portfolioData:
+          $ref: '#/components/schemas/PortfolioData'
+
+    UpdatePortfolioResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: true
+        message:
+          type: string
+          example: "Portfolio updated successfully"
+        data:
+          type: object
+          properties:
+            username:
+              type: string
+              example: "sonuchoudhary"
+            url:
+              type: string
+              format: uri
+              example: "https://app.joinroster.co/sonuchoudhary"
+            updatedAt:
+              type: string
+              format: date-time
+              example: "2024-06-04T11:00:00Z"
+
+    ErrorResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: false
+        error:
+          type: string
+          example: "Invalid request"
+        message:
+          type: string
+          example: "Please provide valid input data"
+
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: X-API-Key
+      description: API key for authentication (if implemented)
+
+security:
+  - ApiKeyAuth: []
+
+tags:
+  - name: Portfolio Data
+    description: Operations for fetching portfolio data from external sources
+  - name: Username Validation
+    description: Operations for validating and checking username availability
+  - name: Portfolio Management
+    description: Operations for creating, reading, updating, and deleting portfolios
