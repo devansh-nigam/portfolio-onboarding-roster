@@ -14,6 +14,12 @@ Portfolio Onboarding Roster is a web application that allows users to create per
 - **Animations**: Framer Motion
 - **Form Handling**: Custom form components
 
+## Design of System
+
+|                   Design Structure                    |
+| :---------------------------------------------------: |
+| ![Screenshot](./product-screenshots/SystemDesign.png) |
+
 ## Product Overview
 
 |                     Landing Screen                     |
