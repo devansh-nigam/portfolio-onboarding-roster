@@ -369,7 +369,7 @@ const SocialLinksSection: React.FC<SocialLinksSectionProps> = ({
             ? {
                 ...section,
                 data: { socialLinks: validLinks },
-                status: validLinks.length > 0 ? "completed" : "pending",
+                status: "completed", // Always completed regardless of number of links
               }
             : section
         ),

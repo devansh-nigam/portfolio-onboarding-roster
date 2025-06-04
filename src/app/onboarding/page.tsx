@@ -173,25 +173,149 @@ const Onboarding: React.FC = () => {
     }
   };
 
+  //   const validateCurrentStep = (step: Step): boolean => {
+  //     if (!step) return false;
+
+  //     switch (step.id) {
+  //       case 1: // Profile Photo
+  //         const photoData = step.data?.profileImage;
+  //         // Also check the original portfolio data as backup
+  //         const originalPhotoData = portfolioData?.sections?.find(
+  //           (s) => s.id === 1
+  //         )?.data?.profileImage;
+
+  //         const hasValidPhoto =
+  //           (photoData?.url && photoData.url.trim() !== "") ||
+  //           (originalPhotoData?.url && originalPhotoData.url.trim() !== "");
+
+  //         return hasValidPhoto;
+
+  //       case 2: // Profile
+  //         const profileData = step.data;
+  //         return !!(
+  //           profileData?.firstName?.trim() &&
+  //           profileData?.lastName?.trim() &&
+  //           profileData?.title?.trim() &&
+  //           profileData?.contact?.email?.trim() &&
+  //           profileData?.location?.city?.trim() &&
+  //           profileData?.location?.country?.trim()
+  //         );
+
+  //       case 3: // Work Experience
+  //         const workData = step.data?.workExperience;
+  //         return workData && Array.isArray(workData) && workData.length > 0;
+
+  //       case 4: // Skills
+  //         const skillsData = step.data;
+  //         return !!(
+  //           skillsData?.skills &&
+  //           Array.isArray(skillsData.skills) &&
+  //           skillsData.skills.length > 0
+  //         );
+
+  //       case 5: // Social Links
+  //         const socialData = step.data?.socialLinks;
+  //         return socialData && Array.isArray(socialData) && socialData.length > 0;
+
+  //       default:
+  //         return true;
+  //     }
+  //   };
+
+  //   const validateCurrentStep = (step: Step): boolean => {
+  //     if (!step) return false;
+
+  //     switch (step.id) {
+  //       case 1: // Profile Photo
+  //         const photoData = step.data?.profileImage;
+  //         // Also check the original portfolio data as backup
+  //         const originalPhotoData = portfolioData?.sections?.find(
+  //           (s) => s.id === 1
+  //         )?.data?.profileImage;
+
+  //         const hasValidPhoto =
+  //           (photoData?.url && photoData.url.trim() !== "") ||
+  //           (originalPhotoData?.url && originalPhotoData.url.trim() !== "");
+
+  //         return hasValidPhoto;
+
+  //       case 2: // Profile - Keep strict validation
+  //         const profileData = step.data;
+  //         return !!(
+  //           profileData?.firstName?.trim() &&
+  //           profileData?.lastName?.trim() &&
+  //           profileData?.title?.trim() &&
+  //           profileData?.contact?.email?.trim() &&
+  //           profileData?.location?.city?.trim() &&
+  //           profileData?.location?.country?.trim()
+  //         );
+
+  //       case 3: // Work Experience - More flexible
+  //         // Allow completion if:
+  //         // 1. No work experience (optional section)
+  //         // 2. OR has at least one experience with basic info filled
+  //         const workData = step.data?.workExperience;
+  //         if (!workData || !Array.isArray(workData) || workData.length === 0) {
+  //           return true; // Allow empty work experience
+  //         }
+
+  //         // If there are experiences, check if at least one has the minimum required fields
+  //         return workData.some(
+  //           (exp: any) =>
+  //             exp.companyName?.trim() &&
+  //             exp.jobTitle?.trim() &&
+  //             exp.employmentType?.trim()
+  //         );
+
+  //       case 4: // Skills - More flexible
+  //         // Allow completion if either skills OR softwares has at least one item
+  //         const skillsData = step.data;
+  //         const hasSkills =
+  //           skillsData?.skills &&
+  //           Array.isArray(skillsData.skills) &&
+  //           skillsData.skills.length > 0;
+  //         const hasSoftware =
+  //           skillsData?.softwares &&
+  //           Array.isArray(skillsData.softwares) &&
+  //           skillsData.softwares.length > 0;
+
+  //         return hasSkills || hasSoftware; // Either one is sufficient
+
+  //       case 5: // Social Links - Make optional
+  //         // Allow completion even with no social links
+  //         const socialData = step.data?.socialLinks;
+  //         if (
+  //           !socialData ||
+  //           !Array.isArray(socialData) ||
+  //           socialData.length === 0
+  //         ) {
+  //           return true; // Allow empty social links
+  //         }
+
+  //         // If there are social links, check if at least one has a valid URL
+  //         return socialData.some((link: any) => link.url?.trim() !== "");
+
+  //       default:
+  //         return true;
+  //     }
+  //   };
+
   const validateCurrentStep = (step: Step): boolean => {
     if (!step) return false;
 
+    // Get the latest data from Redux instead of local steps state
+    const latestSectionData = portfolioData?.sections?.find(
+      (s) => s.id === step.id
+    );
+    const sectionData = latestSectionData || step;
+
     switch (step.id) {
       case 1: // Profile Photo
-        const photoData = step.data?.profileImage;
-        // Also check the original portfolio data as backup
-        const originalPhotoData = portfolioData?.sections?.find(
-          (s) => s.id === 1
-        )?.data?.profileImage;
+        const photoData = sectionData.data?.profileImage;
+        return !!(photoData?.url && photoData.url.trim() !== "");
 
-        const hasValidPhoto =
-          (photoData?.url && photoData.url.trim() !== "") ||
-          (originalPhotoData?.url && originalPhotoData.url.trim() !== "");
-
-        return hasValidPhoto;
-
-      case 2: // Profile
-        const profileData = step.data;
+      case 2: // Profile - Keep strict validation
+        const profileData = sectionData.data;
         return !!(
           profileData?.firstName?.trim() &&
           profileData?.lastName?.trim() &&
@@ -201,21 +325,47 @@ const Onboarding: React.FC = () => {
           profileData?.location?.country?.trim()
         );
 
-      case 3: // Work Experience
-        const workData = step.data?.workExperience;
-        return workData && Array.isArray(workData) && workData.length > 0;
+      case 3: // Work Experience - Fixed logic
+        const workData = sectionData.data?.workExperience;
 
-      case 4: // Skills
-        const skillsData = step.data;
-        return !!(
-          skillsData?.skills &&
-          Array.isArray(skillsData.skills) &&
-          skillsData.skills.length > 0
+        // If no work experience data, it's NOT completed (should remain pending)
+        if (!workData || !Array.isArray(workData) || workData.length === 0) {
+          return false; // Changed from true to false
+        }
+
+        // If there are experiences, check if at least one has complete required fields
+        return workData.some(
+          (exp: any) =>
+            exp.companyName?.trim() &&
+            exp.jobTitle?.trim() &&
+            exp.employmentType?.trim() &&
+            exp.summary?.trim() // Add summary as required too
         );
 
-      case 5: // Social Links
-        const socialData = step.data?.socialLinks;
-        return socialData && Array.isArray(socialData) && socialData.length > 0;
+      case 4: // Skills - More flexible
+        const skillsData = sectionData.data;
+        const hasSkills =
+          skillsData?.skills &&
+          Array.isArray(skillsData.skills) &&
+          skillsData.skills.length > 0;
+        const hasSoftware =
+          skillsData?.softwares &&
+          Array.isArray(skillsData.softwares) &&
+          skillsData.softwares.length > 0;
+
+        return hasSkills || hasSoftware;
+
+      case 5: // Social Links - Make optional
+        const socialData = sectionData.data?.socialLinks;
+        if (
+          !socialData ||
+          !Array.isArray(socialData) ||
+          socialData.length === 0
+        ) {
+          return true; // Allow empty social links
+        }
+
+        return socialData.some((link: any) => link.url?.trim() !== "");
 
       default:
         return true;

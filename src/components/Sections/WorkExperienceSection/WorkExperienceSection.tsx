@@ -300,7 +300,9 @@ const WorkExperienceSection: React.FC<WorkExperienceSectionProps> = ({
 
     setErrors(allErrors);
 
+    // In handleSave, change this:
     if (Object.keys(allErrors).length === 0) {
+      // Remove the requirement for workExperiences.length > 0
       const updatedPortfolioData = {
         ...portfolioData,
         sections: portfolioData.sections.map((section: any) =>
@@ -308,7 +310,7 @@ const WorkExperienceSection: React.FC<WorkExperienceSectionProps> = ({
             ? {
                 ...section,
                 data: { workExperience: workExperiences },
-                status: workExperiences.length > 0 ? "completed" : "pending", // Allow pending with 0 experiences
+                status: workExperiences.length > 0 ? "completed" : "completed", // Always completed if no errors
               }
             : section
         ),

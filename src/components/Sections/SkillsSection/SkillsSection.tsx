@@ -241,16 +241,12 @@ const SkillsSection: React.FC<SkillsSectionProps> = ({ sectionData }) => {
   const allSkillSuggestions = Object.values(SKILL_SUGGESTIONS).flat();
   const allSoftwareSuggestions = Object.values(SOFTWARE_SUGGESTIONS).flat();
 
-  // Validation
   const validateData = (): Record<string, string> => {
     const newErrors: Record<string, string> = {};
 
-    if (skills.length === 0) {
-      newErrors.skills = "Please add at least one skill";
-    }
-
-    if (softwares.length === 0) {
-      newErrors.softwares = "Please add at least one software";
+    // Only require at least one skill OR one software (not both)
+    if (skills.length === 0 && softwares.length === 0) {
+      newErrors.general = "Please add at least one skill or software";
     }
 
     return newErrors;
