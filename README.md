@@ -118,24 +118,24 @@ Portfolio Onboarding Roster is a web application that allows users to create per
 portfolio-onboarding-roster/
 ├── public/ # Static assets
 ├── src/
-│ ├── app/ # Next.js app directory
-│ │ ├── api/ # API routes
-│ │ ├── dashboard/ # Dashboard page
-│ │ ├── onboarding/ # Onboarding page
-│ │ └── page.tsx # Homepage
-│ ├── components/ # React components
-│ │ ├── AnimatedContent/ # Animation components
-│ │ ├── AnimatedText/ # Text animation components
-│ │ ├── FormFields/ # Form input components
-│ │ ├── OnboardingStepper/ # Stepper component
-│ │ ├── PortfolioInput/ # Portfolio URL input
-│ │ └── Sections/ # Onboarding section components
-│ ├── lib/ # Utilities and state management
-│ │ ├── slices/ # Redux slices
-│ │ ├── hooks.ts # Custom hooks
-│ │ └── store.ts # Redux store
-│ ├── mockData/ # Mock data for development
-│ └── types/ # TypeScript type definitions
+│ ├── app/
+│ │ ├── api/
+│ │ ├── dashboard/
+│ │ ├── onboarding/
+│ │ └── page.tsx
+│ ├── components/
+│ │ ├── AnimatedContent/
+│ │ ├── AnimatedText/
+│ │ ├── FormFields/
+│ │ ├── OnboardingStepper/
+│ │ ├── PortfolioInput/
+│ │ └── Sections/
+│ ├── lib/
+│ │ ├── slices/
+│ │ ├── hooks.ts
+│ │ └── store.ts
+│ ├── mockData/
+│ └── types/
 └── ... # Config files
 ```
 
