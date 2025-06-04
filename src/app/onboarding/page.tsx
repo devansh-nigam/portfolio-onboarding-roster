@@ -48,11 +48,11 @@ const Onboarding: React.FC = () => {
     const currentSection = steps.find((step) => step.status === "current");
 
     switch (currentSection?.id) {
-      case 1: // Profile Photo section
+      case 1:
         return <ProfilePhotoSection sectionData={currentSection} />;
-      case 2: // Profile section
+      case 2:
         return <ProfileSection sectionData={currentSection} />;
-      case 3: // Work Experience section
+      case 3:
         return <WorkExperienceSection sectionData={currentSection} />;
       case 4:
         return <SkillsSection sectionData={currentSection} />;
@@ -73,7 +73,7 @@ const Onboarding: React.FC = () => {
       const initialSteps = portfolioData.sections.map(
         (section: Step, index: number) => ({
           ...section,
-          originalStatus: section.status, // Store original status
+          originalStatus: section.status,
           status: index === currentStepIndex ? "current" : section.status,
         })
       );
@@ -159,15 +159,12 @@ const Onboarding: React.FC = () => {
     }
   };
 
-  // Handle continue button
   const handleContinue = () => {
     const nextStepIndex = currentStepIndex + 1;
 
-    // Navigate to next step if available
     if (nextStepIndex < steps.length) {
-      navigateToStep(nextStepIndex); // This will auto-complete current step if valid
+      navigateToStep(nextStepIndex);
     } else {
-      // All steps completed - could navigate to final review or dashboard
       console.log("All onboarding steps completed!");
       alert("Congratulations! You've completed your portfolio setup.");
     }

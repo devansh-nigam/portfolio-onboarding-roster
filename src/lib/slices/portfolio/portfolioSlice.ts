@@ -1,8 +1,43 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { mockUsers } from "@/app/api/portfolio/route";
+
+type StepStatus = "pending" | "current" | "completed" | "error";
+
+interface Step {
+  map(
+    arg0: (
+      section: Step,
+      index: number
+    ) => {
+      originalStatus: "current" | "completed" | "pending" | "error";
+      status: "current" | "completed" | "pending" | "error";
+      id: number;
+      title: string;
+      description: string;
+      estimatedTime: string;
+      errorMessage?: string;
+      data: any;
+    }
+  ): unknown;
+  id: number;
+  title: string;
+  description: string;
+  status: StepStatus;
+  estimatedTime: string;
+  errorMessage?: string;
+  originalStatus?: StepStatus;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  data: any; // Make required and use any for flexibility
+}
+
+export interface PortfolioState {
+  sections: Step;
+  stepper: {
+    currentStep: number;
+  };
+}
 
 const initialState = {
-  portfolioData: mockUsers[0].portfolio,
+  portfolioData: {},
   stepper: {
     currentStep: 0,
   },
