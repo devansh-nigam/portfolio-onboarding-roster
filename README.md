@@ -40,6 +40,14 @@ Portfolio Onboarding Roster is a web application that allows users to create per
 | :--------------------------------------------------: |
 | ![Screenshot](./product-screenshots/SocialLinks.png) |
 
+|                     Dashboard                      |
+| :------------------------------------------------: |
+| ![Screenshot](./product-screenshots/Dashboard.png) |
+
+|                     Portfolio Preview                     |
+| :-------------------------------------------------------: |
+| ![Screenshot](./product-screenshots/PortfolioPreview.png) |
+
 ## Features
 
 - Multi-step onboarding process
