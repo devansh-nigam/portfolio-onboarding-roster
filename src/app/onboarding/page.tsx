@@ -14,6 +14,7 @@ import ProfilePhotoSection from "@components/Sections/ProfilePhotoSection/Profil
 import WorkExperienceSection from "@components/Sections/WorkExperienceSection/WorkExperienceSection";
 import SkillsSection from "@components/Sections/SkillsSection/SkillsSection";
 import SocialLinksSection from "@components/Sections/SocialLinksSection/SocialLinksSection";
+import { useRouter } from "next/navigation";
 
 type StepStatus = "pending" | "current" | "completed" | "error";
 
@@ -29,6 +30,8 @@ interface Step {
 }
 
 const Onboarding: React.FC = () => {
+  const router = useRouter();
+
   const portfolioData = useAppSelector(
     (state) => state.portfolio?.portfolioData
   );
@@ -166,7 +169,7 @@ const Onboarding: React.FC = () => {
       navigateToStep(nextStepIndex);
     } else {
       console.log("All onboarding steps completed!");
-      alert("Congratulations! You've completed your portfolio setup.");
+      router.push("/dashboard");
     }
   };
 
